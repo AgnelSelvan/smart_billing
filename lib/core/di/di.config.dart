@@ -14,6 +14,7 @@ import 'package:hive_flutter/hive_flutter.dart' as _i986;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:smart_billing/core/api/api.dart' as _i672;
 import 'package:smart_billing/core/di/module/hive_module.dart' as _i175;
+import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart' as _i988;
 import 'package:smart_billing/core/utils/environments/environments.dart'
     as _i11;
 import 'package:smart_billing/core/utils/flavor/flavor.dart' as _i817;
@@ -49,6 +50,20 @@ import 'package:smart_billing/features/register/presentation/manager/register_bl
     as _i153;
 import 'package:smart_billing/features/splash/presentation/manager/splash_bloc.dart'
     as _i765;
+import 'package:smart_billing/features/translation/data/datasource/translation_local_datasource.dart'
+    as _i977;
+import 'package:smart_billing/features/translation/data/models/translation_model.dart'
+    as _i192;
+import 'package:smart_billing/features/translation/data/repository/translation_repository.dart'
+    as _i1031;
+import 'package:smart_billing/features/translation/domain/repository/translation_repository.dart'
+    as _i387;
+import 'package:smart_billing/features/translation/domain/usecase/add_translation_usecase.dart'
+    as _i18;
+import 'package:smart_billing/features/translation/domain/usecase/update_translation_usecase.dart'
+    as _i610;
+import 'package:smart_billing/features/translation/presentation/manager/translation_bloc.dart'
+    as _i447;
 import 'package:smart_billing/features/user/data/datasource/user_local_datasource.dart'
     as _i286;
 import 'package:smart_billing/features/user/data/models/user_model.dart'
@@ -83,6 +98,7 @@ Future<_i174.GetIt> init(
   );
   final hiveBoxModule = _$HiveBoxModule();
   gh.factory<_i11.AppEnvironments>(() => _i11.AppEnvironments());
+  gh.factory<_i988.EncryptDecryptManager>(() => _i988.EncryptDecryptManager());
   gh.factory<_i672.APIHandler>(() => _i672.APIHandler());
   await gh.lazySingletonAsync<_i744.Box<_i353.CompanyModel>>(
     () => hiveBoxModule.openCompanyBox(),
@@ -92,12 +108,19 @@ Future<_i174.GetIt> init(
     () => hiveBoxModule.openEmployeeBox(),
     preResolve: true,
   );
+  await gh.lazySingletonAsync<_i744.Box<_i192.TranslationModel>>(
+    () => hiveBoxModule.openTranslationBox(),
+    preResolve: true,
+  );
   gh.lazySingleton<_i445.CompanyRemoteDataSource>(
       () => _i445.CompanyRemoteDataSourceImpl());
   gh.lazySingleton<_i957.PincodeRDS>(
       () => _i957.PincodeRDSImpl(gh<_i672.APIHandler>()));
   gh.lazySingleton<_i861.PincodeRepository>(
       () => _i188.PincodeRepositoryImpl(gh<_i957.PincodeRDS>()));
+  gh.lazySingleton<_i977.TranslationLocalDataSource>(() =>
+      _i977.TranslationLocalDataSourceImpl(
+          translationBox: gh<_i744.Box<_i192.TranslationModel>>()));
   gh.lazySingleton<_i578.CompanyLocalDataSource>(() =>
       _i578.CompanyLocalDataSourceImpl(
           companyBox: gh<_i986.Box<_i353.CompanyModel>>()));
@@ -126,6 +149,9 @@ Future<_i174.GetIt> init(
       _i427.GetAllCompanyUseCase(repository: gh<_i164.CompanyRepository>()));
   gh.lazySingleton<_i937.GetACompanyUseCase>(() =>
       _i937.GetACompanyUseCase(repository: gh<_i164.CompanyRepository>()));
+  gh.lazySingleton<_i387.TranslationRepository>(() =>
+      _i1031.TranslationRepositoryImpl(
+          localDataSource: gh<_i977.TranslationLocalDataSource>()));
   gh.lazySingleton<_i20.GetAllUserUseCase>(
       () => _i20.GetAllUserUseCase(repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i400.GetAUserUseCase>(
@@ -138,6 +164,11 @@ Future<_i174.GetIt> init(
       () => _i280.UpdateUserUseCase(repository: gh<_i431.UserRepository>()));
   gh.factory<_i765.SplashBloc>(
       () => _i765.SplashBloc(gh<_i167.GetMyOwnCompanyUsecase>()));
+  gh.lazySingleton<_i18.AddTranslationUseCase>(() => _i18.AddTranslationUseCase(
+      repository: gh<_i387.TranslationRepository>()));
+  gh.lazySingleton<_i610.UpdateTranslationUseCase>(() =>
+      _i610.UpdateTranslationUseCase(
+          repository: gh<_i387.TranslationRepository>()));
   gh.factory<_i125.UserBloc>(() => _i125.UserBloc(
         gh<_i449.AddUserUseCase>(),
         gh<_i280.UpdateUserUseCase>(),
@@ -149,6 +180,10 @@ Future<_i174.GetIt> init(
         gh<_i449.AddUserUseCase>(),
         gh<_i171.AddCompanyUseCase>(),
         gh<_i53.DeleteUserUseCase>(),
+      ));
+  gh.factory<_i447.TranslationBloc>(() => _i447.TranslationBloc(
+        gh<_i18.AddTranslationUseCase>(),
+        gh<_i610.UpdateTranslationUseCase>(),
       ));
   return getIt;
 }

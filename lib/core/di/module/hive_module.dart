@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_billing/core/enum/box_type.dart';
 import 'package:smart_billing/features/company/data/models/company_model.dart';
+import 'package:smart_billing/features/translation/data/models/translation_model.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
 
 @module
@@ -16,6 +17,11 @@ abstract class HiveBoxModule {
   @preResolve
   Future<Box<UserModel>> openEmployeeBox() =>
       Hive.openBox<UserModel>(BoxType.employee.name);
+
+  @lazySingleton
+  @preResolve
+  Future<Box<TranslationModel>> openTranslationBox() =>
+      Hive.openBox<TranslationModel>(BoxType.translation.name);
 }
 
 class HiveAdapters {
@@ -27,6 +33,7 @@ class HiveAdapters {
       ..registerAdapter(CompanyTypeAdapter())
       ..registerAdapter(UserStatusAdapter())
       ..registerAdapter(UserRoleAdapter())
+      ..registerAdapter(TranslationModelAdapter())
       ..registerAdapter(UserModelAdapter());
   }
 

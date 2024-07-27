@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_billing/core/routes/routes.dart';
+import 'package:smart_billing/features/translation/presentation/pages/translation_page.dart';
 
 abstract class AppBlocStatelessWidget<B extends StateStreamable<S>, S>
     extends StatelessWidget {
@@ -22,6 +23,10 @@ abstract class AppBlocStatelessWidget<B extends StateStreamable<S>, S>
           listener: (BuildContext context, S state) {
             listener(context, bloc(context), state);
           },
+        ),
+        const Align(
+          alignment: Alignment.topRight,
+          child: TranslationDropdownButton(),
         ),
         if (kDebugMode)
           Align(
@@ -49,6 +54,10 @@ abstract class AppStatelessWidget extends StatelessWidget {
     return Stack(
       children: [
         buildView(context),
+        const Align(
+          alignment: Alignment.topRight,
+          child: TranslationDropdownButton(),
+        ),
         if (kDebugMode)
           Align(
             alignment: Alignment.bottomRight,

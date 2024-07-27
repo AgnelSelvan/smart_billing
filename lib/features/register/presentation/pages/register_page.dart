@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:smart_billing/core/di/di.dart';
+import 'package:smart_billing/core/extension/context.dart';
 import 'package:smart_billing/core/routes/routes.dart';
 import 'package:smart_billing/core/utils/app/app_bloc_stateless.dart';
 import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
@@ -79,7 +80,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                             height: 50,
                           ),
                           Text(
-                            'Register',
+                            context.loc.helloWorld,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
