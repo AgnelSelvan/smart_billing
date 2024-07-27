@@ -1,16 +1,17 @@
-# smart_billing
+# Smart Billing Software
 
-A new Flutter project.
+A Billing Software for Windows, Linux, MacOS, Android, iOS.
 
-## Getting Started
+<p align="center">
+ <a href="https://flutter.dev/" style="text-decoration:none" area-label="flutter">
+    <img src="https://img.shields.io/badge/Platform-Flutter%203.22.3-blue">
+  </a>
+</p>
 
-This project is a starting point for a Flutter application.
+```dart
+Copyright (c) 2024, Agnel Selvan
+All rights reserved.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This source code is licensed under the GPLv3-style license found in the
+LICENSE file in the root directory of this source tree.
+```
