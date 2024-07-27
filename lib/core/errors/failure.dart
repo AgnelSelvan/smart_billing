@@ -8,3 +8,7 @@ class Failure {
     return message;
   }
 }
+
+class ServerFailure extends Failure {
+  ServerFailure({super.message = "Server Failure", super.code});
+}

@@ -13,7 +13,9 @@ class AppRoutes {
       case homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case registerCompanyPage:
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
+        return MaterialPageRoute(
+          builder: (_) => const RegisterPage(),
+        );
       case splashPage:
       default:
         return MaterialPageRoute(builder: (_) => const SplashPage());

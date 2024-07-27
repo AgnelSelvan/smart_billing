@@ -9,19 +9,12 @@ abstract class HiveBoxModule {
   @preResolve
   Future<Box<CompanyModel>> openCompanyBox() =>
       Hive.openBox<CompanyModel>(BoxType.company.name);
-
-  @lazySingleton
-  @preResolve
-  Future<Box<T>> openBox<T>(
-    @Named('boxName') String boxName,
-  ) async {
-    final box = await Hive.openBox<T>(boxName);
-    return box;
-  }
 }
 
 class HiveAdapters {
-  void initAdapters() {
+  Future<void> initHive() async {
+    await Hive.initFlutter();
+
     Hive.registerAdapter(CompanyModelAdapter());
   }
 }
