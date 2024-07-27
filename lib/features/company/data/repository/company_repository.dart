@@ -4,6 +4,7 @@ import 'package:smart_billing/core/errors/failure.dart';
 import 'package:smart_billing/core/extension/company/company_model.dart';
 import 'package:smart_billing/features/company/data/datasource/company_local_datasource.dart';
 import 'package:smart_billing/features/company/data/datasource/company_remote_datasource.dart';
+import 'package:smart_billing/features/company/data/models/company_model.dart';
 import 'package:smart_billing/features/company/domain/entity/company_entity.dart';
 import 'package:smart_billing/features/company/domain/repository/company_repository.dart';
 import 'package:smart_billing/features/company/domain/usecase/add_company_usecase.dart';
@@ -19,21 +20,61 @@ class CompanyRepositoryImpl implements CompanyRepository {
 
   @override
   Future<Either<Failure, CompanyEntity>> createCompany(
-      AddCompanyParams companyParams) {
-    // TODO: implement createCompany
-    throw UnimplementedError();
+      AddCompanyParams companyParams) async {
+    try {
+      final response = await localDataSource.addCompany(
+        CompanyModel(
+          id: companyParams.id,
+          name: companyParams.name,
+          address: companyParams.address,
+          city: companyParams.city,
+          state: companyParams.state,
+          pincode: companyParams.pincode,
+          createdAt: companyParams.createdAt,
+          updatedAt: companyParams.createdAt,
+          email: companyParams.email,
+          website: companyParams.website,
+          licNO: companyParams.licNO,
+          placeOfDispatch: companyParams.placeOfDispatch,
+          pan: companyParams.pan,
+          mobileNoList: companyParams.mobileNoList,
+          gstin: companyParams.gstin,
+          bankIds: companyParams.bankIds,
+          companyType: companyParams.companyType,
+        ),
+      );
+      return Right(response);
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, CompanyEntity>> getCompany(String id) {
-    // TODO: implement getCompany
-    throw UnimplementedError();
+  Future<Either<Failure, CompanyEntity>> getCompany(String id) async {
+    try {
+      final company = await localDataSource.getCompanyById(id);
+      if (company == null) {
+        return Left(Failure(message: 'No company found'));
+      } else {
+        return Right(company.toEntity());
+      }
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, List<CompanyEntity>>> getAllCompanies() {
-    // TODO: implement getCompanys
-    throw UnimplementedError();
+  Future<Either<Failure, List<CompanyEntity>>> getAllCompanies() async {
+    try {
+      final company = await localDataSource.getAllCompanies();
+      if (company.isEmpty) {
+        return Left(Failure(message: 'No company found'));
+      } else {
+        return Right(company.map((e) => e.toEntity()).toList());
+      }
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 
   @override

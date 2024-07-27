@@ -1,5 +1,6 @@
 enum BoxType {
-  company('company');
+  company('company'),
+  employee('employee');
 
   final String name;
   const BoxType(this.name);

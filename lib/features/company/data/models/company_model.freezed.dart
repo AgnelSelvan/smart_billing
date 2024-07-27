@@ -29,9 +29,9 @@ mixin _$CompanyModel {
   @HiveField(1)
   set name(String value) => throw _privateConstructorUsedError;
   @HiveField(2)
-  String get address => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
   @HiveField(2)
-  set address(String value) => throw _privateConstructorUsedError;
+  set address(String? value) => throw _privateConstructorUsedError;
   @HiveField(3)
   String? get email => throw _privateConstructorUsedError;
   @HiveField(3)
@@ -84,6 +84,10 @@ mixin _$CompanyModel {
   CompanyType get companyType => throw _privateConstructorUsedError;
   @HiveField(15)
   set companyType(CompanyType value) => throw _privateConstructorUsedError;
+  @HiveField(16)
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @HiveField(16)
+  set updatedAt(DateTime value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -100,7 +104,7 @@ abstract class $CompanyModelCopyWith<$Res> {
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) String address,
+      @HiveField(2) String? address,
       @HiveField(3) String? email,
       @HiveField(4) String? website,
       @HiveField(5) String? licNO,
@@ -113,7 +117,8 @@ abstract class $CompanyModelCopyWith<$Res> {
       @HiveField(12) String? gstin,
       @HiveField(13) List<String> bankIds,
       @HiveField(14) DateTime createdAt,
-      @HiveField(15) CompanyType companyType});
+      @HiveField(15) CompanyType companyType,
+      @HiveField(16) DateTime updatedAt});
 }
 
 /// @nodoc
@@ -131,7 +136,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? address = null,
+    Object? address = freezed,
     Object? email = freezed,
     Object? website = freezed,
     Object? licNO = freezed,
@@ -145,6 +150,7 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
     Object? bankIds = null,
     Object? createdAt = null,
     Object? companyType = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -155,10 +161,10 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      address: null == address
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -211,6 +217,10 @@ class _$CompanyModelCopyWithImpl<$Res, $Val extends CompanyModel>
           ? _value.companyType
           : companyType // ignore: cast_nullable_to_non_nullable
               as CompanyType,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -226,7 +236,7 @@ abstract class _$$CompanyModelImplCopyWith<$Res>
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) String address,
+      @HiveField(2) String? address,
       @HiveField(3) String? email,
       @HiveField(4) String? website,
       @HiveField(5) String? licNO,
@@ -239,7 +249,8 @@ abstract class _$$CompanyModelImplCopyWith<$Res>
       @HiveField(12) String? gstin,
       @HiveField(13) List<String> bankIds,
       @HiveField(14) DateTime createdAt,
-      @HiveField(15) CompanyType companyType});
+      @HiveField(15) CompanyType companyType,
+      @HiveField(16) DateTime updatedAt});
 }
 
 /// @nodoc
@@ -255,7 +266,7 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? address = null,
+    Object? address = freezed,
     Object? email = freezed,
     Object? website = freezed,
     Object? licNO = freezed,
@@ -269,6 +280,7 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
     Object? bankIds = null,
     Object? createdAt = null,
     Object? companyType = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$CompanyModelImpl(
       id: null == id
@@ -279,10 +291,10 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      address: null == address
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -335,18 +347,22 @@ class __$$CompanyModelImplCopyWithImpl<$Res>
           ? _value.companyType
           : companyType // ignore: cast_nullable_to_non_nullable
               as CompanyType,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-@HiveType(typeId: 0, adapterName: "CompanyModelAdapter")
+@HiveType(typeId: 0, adapterName: 'CompanyModelAdapter')
 class _$CompanyModelImpl extends _CompanyModel {
   _$CompanyModelImpl(
       {@HiveField(0) required this.id,
       @HiveField(1) required this.name,
-      @HiveField(2) required this.address,
+      @HiveField(2) this.address,
       @HiveField(3) this.email,
       @HiveField(4) this.website,
       @HiveField(5) this.licNO,
@@ -359,7 +375,8 @@ class _$CompanyModelImpl extends _CompanyModel {
       @HiveField(12) this.gstin,
       @HiveField(13) this.bankIds = const <String>[],
       @HiveField(14) required this.createdAt,
-      @HiveField(15) this.companyType = CompanyType.own})
+      @HiveField(15) required this.companyType,
+      @HiveField(16) required this.updatedAt})
       : super._();
 
   factory _$CompanyModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -373,7 +390,7 @@ class _$CompanyModelImpl extends _CompanyModel {
   String name;
   @override
   @HiveField(2)
-  String address;
+  String? address;
   @override
   @HiveField(3)
   String? email;
@@ -413,13 +430,15 @@ class _$CompanyModelImpl extends _CompanyModel {
   @HiveField(14)
   DateTime createdAt;
   @override
-  @JsonKey()
   @HiveField(15)
   CompanyType companyType;
+  @override
+  @HiveField(16)
+  DateTime updatedAt;
 
   @override
   String toString() {
-    return 'CompanyModel(id: $id, name: $name, address: $address, email: $email, website: $website, licNO: $licNO, placeOfDispatch: $placeOfDispatch, pan: $pan, pincode: $pincode, state: $state, city: $city, mobileNoList: $mobileNoList, gstin: $gstin, bankIds: $bankIds, createdAt: $createdAt, companyType: $companyType)';
+    return 'CompanyModel(id: $id, name: $name, address: $address, email: $email, website: $website, licNO: $licNO, placeOfDispatch: $placeOfDispatch, pan: $pan, pincode: $pincode, state: $state, city: $city, mobileNoList: $mobileNoList, gstin: $gstin, bankIds: $bankIds, createdAt: $createdAt, companyType: $companyType, updatedAt: $updatedAt)';
   }
 
   @JsonKey(ignore: true)
@@ -440,7 +459,7 @@ abstract class _CompanyModel extends CompanyModel {
   factory _CompanyModel(
       {@HiveField(0) required String id,
       @HiveField(1) required String name,
-      @HiveField(2) required String address,
+      @HiveField(2) String? address,
       @HiveField(3) String? email,
       @HiveField(4) String? website,
       @HiveField(5) String? licNO,
@@ -453,7 +472,8 @@ abstract class _CompanyModel extends CompanyModel {
       @HiveField(12) String? gstin,
       @HiveField(13) List<String> bankIds,
       @HiveField(14) required DateTime createdAt,
-      @HiveField(15) CompanyType companyType}) = _$CompanyModelImpl;
+      @HiveField(15) required CompanyType companyType,
+      @HiveField(16) required DateTime updatedAt}) = _$CompanyModelImpl;
   _CompanyModel._() : super._();
 
   factory _CompanyModel.fromJson(Map<String, dynamic> json) =
@@ -471,9 +491,9 @@ abstract class _CompanyModel extends CompanyModel {
   set name(String value);
   @override
   @HiveField(2)
-  String get address;
+  String? get address;
   @HiveField(2)
-  set address(String value);
+  set address(String? value);
   @override
   @HiveField(3)
   String? get email;
@@ -539,6 +559,11 @@ abstract class _CompanyModel extends CompanyModel {
   CompanyType get companyType;
   @HiveField(15)
   set companyType(CompanyType value);
+  @override
+  @HiveField(16)
+  DateTime get updatedAt;
+  @HiveField(16)
+  set updatedAt(DateTime value);
   @override
   @JsonKey(ignore: true)
   _$$CompanyModelImplCopyWith<_$CompanyModelImpl> get copyWith =>

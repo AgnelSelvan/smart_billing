@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_billing/features/pincode/domain/usecases/pincode.dart';
 
 class PincodeProvider extends ChangeNotifier {
   final GetPincodeDetailsUseCase pincodeUseCase;
+  final formKey = GlobalKey<FormBuilderState>();
   PincodeProvider(
     this.pincodeUseCase, {
     @Named('pincode') String? pincode,
     @Named('state') String? state,
     @Named('city') String? city,
   }) {
-    pincodeController.text = pincode ?? '';
-    stateController.text = state ?? '';
-    cityController.text = city ?? '';
     notifyListeners();
   }
 
@@ -20,9 +19,6 @@ class PincodeProvider extends ChangeNotifier {
   String? _selectedCity;
   List<String>? _cities;
   String? _pincode;
-  final TextEditingController pincodeController = TextEditingController();
-  final TextEditingController stateController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
 
   String? get selectedState => _selectedState;
   String? get selectedCity => _selectedCity;
@@ -33,13 +29,13 @@ class PincodeProvider extends ChangeNotifier {
     _selectedState = selectedState;
     _cities = cities;
     _selectedCity = null;
-    cityController.clear();
+    formKey.currentState?.fields['city']?.setValue(null);
     notifyListeners();
   }
 
   void updateCity(String? selectedCity) {
     _selectedCity = selectedCity;
-    cityController.text = selectedCity ?? '';
+    formKey.currentState?.fields['city']?.setValue(selectedCity);
     notifyListeners();
   }
 
@@ -49,8 +45,10 @@ class PincodeProvider extends ChangeNotifier {
     return result.fold((l) => l.toString(), (r) {
       _selectedState = r.firstOrNull?.state;
       _selectedCity = r.firstOrNull?.district;
-      stateController.text = _selectedState ?? '';
-      cityController.text = _selectedCity ?? '';
+      formKey.currentState?.patchValue({
+        'state': _selectedState,
+        'city': _selectedCity,
+      });
       notifyListeners();
       return null;
     });
@@ -61,9 +59,9 @@ class PincodeProvider extends ChangeNotifier {
     _selectedCity = null;
     _cities = null;
     _pincode = null;
-    pincodeController.clear();
-    stateController.clear();
-    cityController.clear();
+    formKey.currentState?.fields['state']?.setValue(null);
+    formKey.currentState?.fields['city']?.setValue(null);
+    formKey.currentState?.fields['pincode']?.setValue(null);
     notifyListeners();
   }
 }

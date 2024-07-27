@@ -1,68 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class AppTextField extends StatefulWidget {
+class AppFormTextField extends StatefulWidget {
   final String? labelText;
   final String? hintText;
   final bool obsecureText;
   final Function(String)? onEditingComplete;
-  final Function(String)? onChanged;
-  final TextEditingController? controller;
   final FocusNode? focusNode;
   final int maxLines;
   final bool enabled;
   final bool readOnly;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
-  const AppTextField({
+  final String name;
+  final GlobalKey<FormBuilderState>? formKey;
+  const AppFormTextField({
     super.key,
     this.labelText,
     this.hintText,
     this.obsecureText = false,
     this.onEditingComplete,
-    this.onChanged,
-    this.controller,
     this.focusNode,
     this.maxLines = 1,
     this.enabled = true,
     this.readOnly = false,
     this.validator,
     this.suffixIcon,
+    required this.name,
+    this.formKey,
   });
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
+  State<AppFormTextField> createState() => _AppFormTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _AppFormTextFieldState extends State<AppFormTextField> {
   late FocusNode focusNode;
-  late TextEditingController controller;
   @override
   void initState() {
-    controller = widget.controller ?? TextEditingController();
     focusNode = widget.focusNode ?? FocusNode();
-    focusNode.addListener(() {
-      if (!focusNode.hasFocus) {
-        widget.onEditingComplete?.call(controller.text);
-      }
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: TextFormField(
-        key: widget.key,
+      child: FormBuilderTextField(
+        key: widget.formKey,
         focusNode: focusNode,
         obscureText: widget.obsecureText,
-        obscuringCharacter: "*",
-        onEditingComplete: () {
-          widget.onEditingComplete?.call(controller.text);
-        },
-        controller: controller,
+        obscuringCharacter: '*',
         enabled: widget.enabled,
         maxLines: widget.maxLines,
-        onChanged: widget.onChanged,
         readOnly: widget.readOnly,
         validator: widget.validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -97,6 +86,7 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
           ),
         ),
+        name: widget.name,
       ),
     );
   }

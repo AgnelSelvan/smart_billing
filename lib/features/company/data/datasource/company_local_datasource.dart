@@ -1,6 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:smart_billing/core/enum/company.dart';
 import 'package:smart_billing/core/extension/company/company_model.dart';
 import 'package:smart_billing/features/company/data/models/company_model.dart';
 import 'package:smart_billing/features/company/domain/entity/company_entity.dart';

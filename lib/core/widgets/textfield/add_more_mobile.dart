@@ -4,9 +4,9 @@ import 'package:smart_billing/core/widgets/textfield/textfield.dart';
 class AppAddMoreMobileNoTextField extends StatelessWidget {
   const AppAddMoreMobileNoTextField({
     super.key,
+    required this.name,
     this.obsecureText,
     this.onEditingComplete,
-    this.onChanged,
     this.controller,
     this.focusNode,
     this.maxLines,
@@ -17,7 +17,6 @@ class AppAddMoreMobileNoTextField extends StatelessWidget {
   });
   final bool? obsecureText;
   final Function(String)? onEditingComplete;
-  final Function(String)? onChanged;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final int? maxLines;
@@ -25,25 +24,25 @@ class AppAddMoreMobileNoTextField extends StatelessWidget {
   final bool? readOnly;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: AppTextField(
-            labelText: "Your Mobile No.",
-            hintText: "9234586749",
+          child: AppFormTextField(
+            labelText: 'Your Mobile No.',
+            hintText: '9234586749',
             obsecureText: obsecureText ?? false,
             onEditingComplete: onEditingComplete,
-            onChanged: onChanged,
-            controller: controller,
             focusNode: focusNode,
             maxLines: maxLines ?? 1,
             enabled: enabled ?? true,
             readOnly: readOnly ?? false,
             validator: validator,
             suffixIcon: suffixIcon,
+            name: name,
           ),
         ),
         IconButton(

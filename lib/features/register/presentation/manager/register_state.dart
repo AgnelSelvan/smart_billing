@@ -1,38 +1,41 @@
 part of 'register_bloc.dart';
 
 class RegisterState extends Equatable {
-  final List<RegisterEntity> allRegisters;
-  final RegisterEntity? aRegister;
+  final CompanyEntity? companyEntity;
+  final UserEntity? ownerEntity;
   const RegisterState({
-    this.allRegisters = const [],
-    this.aRegister,
+    this.companyEntity,
+    this.ownerEntity,
   });
 
   @override
   List<Object> get props => [];
 
   RegisterState copyWith({
-    List<RegisterEntity>? allRegisters,
-    RegisterEntity? aRegister,
+    CompanyEntity? companyEntity,
+    UserEntity? ownerEntity,
   }) {
     return RegisterState(
-      allRegisters: allRegisters ?? this.allRegisters,
-      aRegister: aRegister ?? this.aRegister,
+      companyEntity: companyEntity ?? this.companyEntity,
+      ownerEntity: ownerEntity ?? this.ownerEntity,
     );
   }
 
   RegisterError emitError(Failure error) {
     return RegisterError(
       message: error,
-      allRegisters: allRegisters,
-      aRegister: aRegister,
+      ownerEntity: ownerEntity,
+      companyEntity: companyEntity,
     );
   }
 
-  RegisterLoaded emitLoaded() {
+  RegisterLoaded emitLoaded({
+    required CompanyEntity companyEntity,
+    required UserEntity ownerEntity,
+  }) {
     return RegisterLoaded(
-      allRegisters: allRegisters,
-      aRegister: aRegister,
+      ownerEntity: ownerEntity,
+      companyEntity: companyEntity,
     );
   }
 }
@@ -40,23 +43,22 @@ class RegisterState extends Equatable {
 class RegisterError extends RegisterState {
   final Failure message;
   const RegisterError({
-    super.aRegister,
-    super.allRegisters,
+    super.ownerEntity,
+    super.companyEntity,
     required this.message,
   });
 }
 
 class RegisterLoading extends RegisterState {
   const RegisterLoading({
-    super.aRegister,
-    super.allRegisters,
+    super.ownerEntity,
+    super.companyEntity,
   });
 }
 
-
 class RegisterLoaded extends RegisterState {
   const RegisterLoaded({
-    super.aRegister,
-    super.allRegisters,
+    super.companyEntity,
+    super.ownerEntity,
   });
 }

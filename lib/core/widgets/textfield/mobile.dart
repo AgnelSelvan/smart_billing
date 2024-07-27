@@ -1,20 +1,19 @@
 import 'package:smart_billing/core/widgets/textfield/textfield.dart';
 
-class AppMobileNoTextField extends AppTextField {
+class AppMobileNoTextField extends AppFormTextField {
   @override
-  final String? labelText = "Your Mobile No.";
+  final String? labelText = 'Your Mobile No.';
 
   @override
-  final String? hintText = "9234586749";
+  final String? hintText = '9234586749';
 
   const AppMobileNoTextField({
     super.key,
-    super.controller,
     super.focusNode,
     super.maxLines,
     super.obsecureText,
-    super.onChanged,
     super.onEditingComplete,
     super.validator,
+    super.name = 'mobileNo',
   });
 }

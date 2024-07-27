@@ -1,17 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:smart_billing/core/enum/company.dart';
 
 part 'company_model.freezed.dart';
 part 'company_model.g.dart';
 
+@HiveType(typeId: 1)
+enum CompanyType {
+  @HiveField(0)
+  own,
+  @HiveField(1)
+  buyer,
+  @HiveField(2)
+  seller;
+}
+
 @unfreezed
 class CompanyModel extends HiveObject with _$CompanyModel {
-  @HiveType(typeId: 0, adapterName: "CompanyModelAdapter")
+  @HiveType(typeId: 0, adapterName: 'CompanyModelAdapter')
   factory CompanyModel({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required String address,
+    @HiveField(2) String? address,
     @HiveField(3) String? email,
     @HiveField(4) String? website,
     @HiveField(5) String? licNO,
@@ -24,7 +33,8 @@ class CompanyModel extends HiveObject with _$CompanyModel {
     @HiveField(12) String? gstin,
     @HiveField(13) @Default(<String>[]) List<String> bankIds,
     @HiveField(14) required DateTime createdAt,
-    @HiveField(15) @Default(CompanyType.own) CompanyType companyType,
+    @HiveField(15) required CompanyType companyType,
+    @HiveField(16) required DateTime updatedAt,
   }) = _CompanyModel;
 
   CompanyModel._();

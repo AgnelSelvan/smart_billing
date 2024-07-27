@@ -10,5 +10,5 @@ class Failure {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure({super.message = "Server Failure", super.code});
+  ServerFailure({super.message = 'Server Failure', super.code});
 }
