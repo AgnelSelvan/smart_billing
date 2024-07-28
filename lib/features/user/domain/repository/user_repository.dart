@@ -10,4 +10,6 @@ abstract class UserRepository {
   Future<Either<Failure, UserEntity>> createUser(AddUserParams userParams);
   Future<Either<Failure, UserEntity>> updateUser(UserModel userParams);
   Future<Either<Failure, UserEntity>> deleteUser(String userId);
+  Either<Failure, UserEntity> getUserByEmailOrMobileNo(String email);
+  Either<Failure, UserEntity> userLogin(String email, String password);
 }

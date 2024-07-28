@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_billing/core/di/di.dart' as di;
 import 'package:smart_billing/core/di/di.dart';
 import 'package:smart_billing/core/routes/routes.dart';
+import 'package:smart_billing/core/themes/colors.dart';
 import 'package:smart_billing/features/pincode/domain/usecases/pincode.dart';
 import 'package:smart_billing/features/pincode/presentation/provider/pincode.dart';
 import 'package:smart_billing/features/translation/presentation/manager/translation_bloc.dart';
@@ -30,8 +31,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               title: 'Smart Billing',
               theme: ThemeData(
-                colorScheme:
-                    ColorScheme.fromSeed(seedColor: const Color(0xFFFFBB0D)),
+                colorScheme: AppColors.primaryColorScheme,
                 useMaterial3: true,
               ),
               locale: state.selectedLocale,

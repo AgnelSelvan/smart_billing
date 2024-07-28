@@ -7,26 +7,9 @@ class LoginEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddLoginEvent extends LoginEvent {
-  final AddLoginParams params;
+class HandleLoginEvent extends LoginEvent {
+  final String email;
+  final String password;
 
-  const AddLoginEvent({required this.params});
-}
-
-class UpdateLoginEvent extends LoginEvent {
-  final UpdateLoginParams params;
-
-  const UpdateLoginEvent({required this.params});
-}
-
-class DeleteLoginEvent extends LoginEvent {
-  final String id;
-  const DeleteLoginEvent({required this.id});
-}
-
-class GetAllLoginsEvent extends LoginEvent {}
-
-class GetALoginEvent extends LoginEvent {
-  final String id;
-  const GetALoginEvent({required this.id});
+  const HandleLoginEvent({required this.email, required this.password});
 }

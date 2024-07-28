@@ -38,6 +38,8 @@ import 'package:smart_billing/features/company/domain/usecase/get_all_company_us
     as _i427;
 import 'package:smart_billing/features/company/domain/usecase/get_my_own_company.dart'
     as _i167;
+import 'package:smart_billing/features/login/presentation/manager/login_bloc.dart'
+    as _i804;
 import 'package:smart_billing/features/pincode/data/datasources/remote_data_source.dart'
     as _i957;
 import 'package:smart_billing/features/pincode/data/repositories/pincode_impl.dart'
@@ -82,10 +84,12 @@ import 'package:smart_billing/features/user/domain/usecase/get_a_user_usecase.da
     as _i400;
 import 'package:smart_billing/features/user/domain/usecase/get_all_user_usecase.dart'
     as _i20;
+import 'package:smart_billing/features/user/domain/usecase/get_user_by_email_or_mobile.dart'
+    as _i826;
 import 'package:smart_billing/features/user/domain/usecase/update_user_usecase.dart'
     as _i280;
-import 'package:smart_billing/features/user/presentation/manager/user_bloc.dart'
-    as _i125;
+import 'package:smart_billing/features/user/domain/usecase/user_login.dart'
+    as _i454;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 Future<_i174.GetIt> init(
@@ -164,27 +168,27 @@ Future<_i174.GetIt> init(
       () => _i449.AddUserUseCase(repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i280.UpdateUserUseCase>(
       () => _i280.UpdateUserUseCase(repository: gh<_i431.UserRepository>()));
+  gh.lazySingleton<_i826.GetUserByEmailOrMobileUseCase>(() =>
+      _i826.GetUserByEmailOrMobileUseCase(
+          repository: gh<_i431.UserRepository>()));
+  gh.lazySingleton<_i454.UserLoginUseCase>(
+      () => _i454.UserLoginUseCase(repository: gh<_i431.UserRepository>()));
   gh.factory<_i765.SplashBloc>(
       () => _i765.SplashBloc(gh<_i167.GetMyOwnCompanyUsecase>()));
+  gh.factory<_i804.LoginBloc>(
+      () => _i804.LoginBloc(gh<_i454.UserLoginUseCase>()));
+  gh.lazySingleton<_i212.GetCurrentTranslationUseCase>(() =>
+      _i212.GetCurrentTranslationUseCase(
+          repository: gh<_i387.TranslationRepository>()));
   gh.lazySingleton<_i18.AddTranslationUseCase>(() => _i18.AddTranslationUseCase(
       repository: gh<_i387.TranslationRepository>()));
   gh.lazySingleton<_i610.UpdateTranslationUseCase>(() =>
       _i610.UpdateTranslationUseCase(
           repository: gh<_i387.TranslationRepository>()));
-  gh.lazySingleton<_i212.GetCurrentTranslationUseCase>(() =>
-      _i212.GetCurrentTranslationUseCase(
-          repository: gh<_i387.TranslationRepository>()));
   gh.factory<_i447.TranslationBloc>(() => _i447.TranslationBloc(
         gh<_i18.AddTranslationUseCase>(),
         gh<_i610.UpdateTranslationUseCase>(),
         gh<_i212.GetCurrentTranslationUseCase>(),
-      ));
-  gh.factory<_i125.UserBloc>(() => _i125.UserBloc(
-        gh<_i449.AddUserUseCase>(),
-        gh<_i280.UpdateUserUseCase>(),
-        gh<_i53.DeleteUserUseCase>(),
-        gh<_i20.GetAllUserUseCase>(),
-        gh<_i400.GetAUserUseCase>(),
       ));
   gh.factory<_i153.RegisterBloc>(() => _i153.RegisterBloc(
         gh<_i449.AddUserUseCase>(),

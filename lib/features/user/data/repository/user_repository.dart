@@ -84,4 +84,30 @@ class UserRepositoryImpl extends UserRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, UserEntity> getUserByEmailOrMobileNo(String email) {
+    try {
+      final user = localDataSource.getUserByEmailOrMobileNo(email);
+      if (user == null) {
+        return Left(Failure(message: 'User not found'));
+      }
+      return Right(user);
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, UserEntity> userLogin(String email, String password) {
+    try {
+      final user = localDataSource.userLogin(email, password);
+      if (user == null) {
+        return Left(Failure(message: 'User not found'));
+      }
+      return Right(user);
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

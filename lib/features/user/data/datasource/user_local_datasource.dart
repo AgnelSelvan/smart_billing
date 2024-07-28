@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
 import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 
@@ -9,6 +10,8 @@ abstract class UserLocalDataSource {
   Future<UserEntity> updateUser(UserModel userModel);
   Future<UserEntity> deleteUser(String userId);
   Future<UserModel?> getUserById(String id);
+  UserEntity? getUserByEmailOrMobileNo(String email);
+  UserEntity? userLogin(String email, String password);
 }
 
 @LazySingleton(as: UserLocalDataSource)
@@ -50,5 +53,26 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
   Future<UserModel?> getUserById(String id) {
     return Future.value(
         userBox.values.where((ele) => ele.id == id).firstOrNull);
+  }
+
+  @override
+  UserEntity? getUserByEmailOrMobileNo(String email) {
+    return userBox.values
+        .where((ele) => ele.email == email || ele.mobile.contains(email))
+        .firstOrNull
+        ?.toEntity();
+  }
+
+  @override
+  UserEntity? userLogin(String email, String password) {
+    final userEntity = getUserByEmailOrMobileNo(email);
+    if (userEntity == null) {
+      throw Exception('User not found');
+    }
+    if (EncryptDecryptManager.decrypt(userEntity.password, password)) {
+      return userEntity;
+    } else {
+      throw Exception('Invalid password');
+    }
   }
 }

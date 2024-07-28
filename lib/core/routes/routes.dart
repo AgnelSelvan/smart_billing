@@ -4,6 +4,7 @@ import 'package:hive_ui/boxes_view.dart';
 import 'package:smart_billing/core/di/di.dart';
 import 'package:smart_billing/core/di/module/hive_module.dart';
 import 'package:smart_billing/features/home/presentation/pages/home_page.dart';
+import 'package:smart_billing/features/login/presentation/manager/login_bloc.dart';
 import 'package:smart_billing/features/login/presentation/pages/login_page.dart';
 import 'package:smart_billing/features/register/presentation/manager/register_bloc.dart';
 import 'package:smart_billing/features/register/presentation/pages/register_page.dart';
@@ -30,7 +31,10 @@ class AppRoutes {
         );
       case loginPage:
         return MaterialPageRoute(
-          builder: (_) => const LoginPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<LoginBloc>(),
+            child: LoginPage(),
+          ),
         );
       case viewHivePage:
         return MaterialPageRoute(
