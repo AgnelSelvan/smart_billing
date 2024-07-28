@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_billing/core/extension/context.dart';
 import 'package:smart_billing/core/validator/validator.dart';
 import 'package:smart_billing/core/widgets/textfield/textfield.dart';
 import 'package:smart_billing/features/pincode/presentation/provider/pincode.dart';
@@ -19,9 +20,9 @@ class StateCityPincode extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: AppFormTextField(
-                      labelText: 'Enter Pincode',
+                      labelText: context.loc.enterPincode,
                       validator: AppValidators.pincodeValidate,
                       name: 'pincode',
                     ),
@@ -43,16 +44,16 @@ class StateCityPincode extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const AppFormTextField(
-                labelText: 'Enter State',
+              AppFormTextField(
+                labelText: context.loc.enterState,
                 validator: AppValidators.stateValidate,
                 name: 'state',
               ),
               const SizedBox(
                 height: 10,
               ),
-              const AppFormTextField(
-                labelText: 'Enter City',
+              AppFormTextField(
+                labelText: context.loc.enterCity,
                 validator: AppValidators.cityValidate,
                 name: 'city',
               ),

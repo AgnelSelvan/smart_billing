@@ -2,5 +2,19 @@
   "helloWorld": "हैलो वर्ल्ड!",
   "@helloWorld": {
     "description": "पारंपरिक नवजात प्रोग्रामर अभिवादन"
-  }
+  },
+  "register": "पंजीकरण करवाना",
+  "registerSubtitle": "स्मार्ट बिलिंग आरंभ करने के लिए पंजीकृत हों",
+  "yourName": "आपका नाम",
+  "yourEmail": "आपका ईमेल",
+  "yourMobileNo": "आपका मोबाइल नंबर",
+  "yourPassword": "आपका पासवर्ड",
+  "companyDetails": "कंपनी का विवरण",
+  "companyName": "कंपनी का नाम",
+  "mobileNo": "मोबाइल नंबर",
+  "companyAddress": "कम्पनी का पता",
+  "signUp": "साइन अप करें",
+  "enterPincode": "पिनकोड दर्ज करें",
+  "enterState": "राज्य दर्ज करें",
+  "enterCity": "शहर दर्ज करें"
 }

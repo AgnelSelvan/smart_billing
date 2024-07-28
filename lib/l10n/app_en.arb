@@ -2,5 +2,19 @@
   "helloWorld": "Hello World!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
-  }
+  },
+  "register": "Register",
+  "registerSubtitle": "Get Registered to get started with Smart Billing",
+  "yourName": "Your Name",
+  "yourEmail": "Your Email",
+  "yourMobileNo": "Your Mobile Number",
+  "yourPassword": "Your Password",
+  "companyDetails": "Company Details",
+  "companyName": "Company Name",
+  "mobileNo": "Mobile Number",
+  "companyAddress": "Company Address",
+  "signUp": "Sign Up",
+  "enterPincode": "Enter Pincode",
+  "enterState": "Enter State",
+  "enterCity": "Enter City"
 }

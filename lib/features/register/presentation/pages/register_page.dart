@@ -9,9 +9,6 @@ import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
 import 'package:smart_billing/core/utils/environments/environments.dart';
 import 'package:smart_billing/core/utils/toast/toast.dart';
 import 'package:smart_billing/core/validator/validator.dart';
-import 'package:smart_billing/core/widgets/textfield/email.dart';
-import 'package:smart_billing/core/widgets/textfield/first_name.dart';
-import 'package:smart_billing/core/widgets/textfield/mobile.dart';
 import 'package:smart_billing/core/widgets/textfield/textfield.dart';
 import 'package:smart_billing/features/company/data/models/company_model.dart';
 import 'package:smart_billing/features/company/domain/usecase/add_company_usecase.dart';
@@ -80,7 +77,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                             height: 50,
                           ),
                           Text(
-                            context.loc.helloWorld,
+                            context.loc.register,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
@@ -92,7 +89,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                             height: 10,
                           ),
                           Text(
-                            'Get Registered to get started with Smart Billing',
+                            context.loc.registerSubtitle,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium
@@ -103,30 +100,37 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                           const SizedBox(
                             height: 40,
                           ),
-                          const Column(
+                          Column(
                             children: [
-                              AppFirstNameTextField(
+                              AppFormTextField(
                                 name: 'name',
+                                labelText: context.loc.yourName,
+                                validator: AppValidators.nameValidate,
+                                hintText: 'eg. John Doe',
                               ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              AppEmailTextField(
-                                validator: AppValidators.emailValidate,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              RepaintBoundary(
-                                child: AppMobileNoTextField(
-                                  validator: AppValidators.mobileNoValidate,
-                                ),
-                              ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               AppFormTextField(
-                                labelText: 'Your Password',
+                                validator: AppValidators.emailValidate,
+                                name: 'email',
+                                labelText: context.loc.yourEmail,
+                                hintText: 'eg. john.doe@gmail.com',
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              AppFormTextField(
+                                validator: AppValidators.mobileNoValidate,
+                                labelText: context.loc.yourMobileNo,
+                                hintText: 'eg. 9234586749',
+                                name: 'mobileNo',
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              AppFormTextField(
+                                labelText: context.loc.yourPassword,
                                 obsecureText: true,
                                 validator: AppValidators.fieldRequired,
                                 name: 'password',
@@ -158,7 +162,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Company Details',
+                                context.loc.companyDetails,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge
@@ -169,24 +173,24 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              const AppFormTextField(
-                                labelText: 'Company Name',
+                              AppFormTextField(
+                                labelText: context.loc.companyName,
                                 validator: AppValidators.companyNameValidate,
                                 name: 'companyName',
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              const AppFormTextField(
-                                labelText: 'Mobile Number',
+                              AppFormTextField(
+                                labelText: context.loc.mobileNo,
                                 validator: AppValidators.mobileNoValidate,
                                 name: 'companyMobileNo',
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              const AppFormTextField(
-                                labelText: 'Company Address',
+                              AppFormTextField(
+                                labelText: context.loc.companyAddress,
                                 maxLines: 3,
                                 validator: AppValidators.addressValidate,
                                 name: 'companyAddress',
@@ -264,7 +268,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                                     );
                                   }
                                 },
-                                child: const Text('Sign Up'),
+                                child: Text(context.loc.signUp),
                               ),
                               const SizedBox(
                                 height: 30,
