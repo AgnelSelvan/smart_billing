@@ -7,6 +7,7 @@ abstract class TranslationLocalDataSource {
   Future<TranslationEntity> addTranslation(TranslationModel translationModel);
   Future<TranslationEntity> updateTranslation(
       TranslationModel translationModel);
+  TranslationEntity? getCurrentTranslation();
 }
 
 @LazySingleton(as: TranslationLocalDataSource)
@@ -27,5 +28,10 @@ class TranslationLocalDataSourceImpl extends TranslationLocalDataSource {
       TranslationModel translationModel) async {
     await translationBox.putAt(0, translationModel);
     return translationModel.toEntity();
+  }
+
+  @override
+  TranslationEntity? getCurrentTranslation() {
+    return translationBox.getAt(0)?.toEntity();
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
 import 'package:smart_billing/core/api/api.dart';
@@ -23,7 +22,6 @@ class PincodeRDSImpl extends APIHandler implements PincodeRDS {
       );
       // http.Response response = await http
       //     .get(Uri.parse('https://api.postalpincode.in/pincode/$pincode'));
-      log("response: ${response.body}");
       final resJson = jsonDecode(response.body);
       if (resJson is List) {
         return PincodeModel.fromJson(resJson.first as Map<String, dynamic>);
@@ -31,7 +29,6 @@ class PincodeRDSImpl extends APIHandler implements PincodeRDS {
         return PincodeModel.fromJson(resJson as Map<String, dynamic>);
       }
     } catch (e) {
-      log("Error: $e");
       rethrow;
     }
   }

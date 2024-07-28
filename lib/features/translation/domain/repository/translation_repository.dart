@@ -8,4 +8,5 @@ abstract class TranslationRepository {
       AddTranslationParams translationParams);
   Future<Either<Failure, TranslationEntity>> updateTranslation(
       AddTranslationParams translationParams);
+  Either<Failure, TranslationEntity> getCurrentTranslation();
 }

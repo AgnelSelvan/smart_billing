@@ -60,6 +60,8 @@ import 'package:smart_billing/features/translation/domain/repository/translation
     as _i387;
 import 'package:smart_billing/features/translation/domain/usecase/add_translation_usecase.dart'
     as _i18;
+import 'package:smart_billing/features/translation/domain/usecase/get_current_translation.dart'
+    as _i212;
 import 'package:smart_billing/features/translation/domain/usecase/update_translation_usecase.dart'
     as _i610;
 import 'package:smart_billing/features/translation/presentation/manager/translation_bloc.dart'
@@ -169,6 +171,14 @@ Future<_i174.GetIt> init(
   gh.lazySingleton<_i610.UpdateTranslationUseCase>(() =>
       _i610.UpdateTranslationUseCase(
           repository: gh<_i387.TranslationRepository>()));
+  gh.lazySingleton<_i212.GetCurrentTranslationUseCase>(() =>
+      _i212.GetCurrentTranslationUseCase(
+          repository: gh<_i387.TranslationRepository>()));
+  gh.factory<_i447.TranslationBloc>(() => _i447.TranslationBloc(
+        gh<_i18.AddTranslationUseCase>(),
+        gh<_i610.UpdateTranslationUseCase>(),
+        gh<_i212.GetCurrentTranslationUseCase>(),
+      ));
   gh.factory<_i125.UserBloc>(() => _i125.UserBloc(
         gh<_i449.AddUserUseCase>(),
         gh<_i280.UpdateUserUseCase>(),
@@ -180,10 +190,6 @@ Future<_i174.GetIt> init(
         gh<_i449.AddUserUseCase>(),
         gh<_i171.AddCompanyUseCase>(),
         gh<_i53.DeleteUserUseCase>(),
-      ));
-  gh.factory<_i447.TranslationBloc>(() => _i447.TranslationBloc(
-        gh<_i18.AddTranslationUseCase>(),
-        gh<_i610.UpdateTranslationUseCase>(),
       ));
   return getIt;
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -12,7 +11,7 @@ class APIHandler {
 //   APIHandler(this.flavor);
 
   //TODO: Change Base URL
-  String get apiBaseUrl => "flavor.baseUrl";
+  String get apiBaseUrl => 'flavor.baseUrl';
 
   Future<http.Response> post(
     String endpoint, {
@@ -20,7 +19,6 @@ class APIHandler {
   }) async {
     try {
       final url = "$apiBaseUrl$endpoint";
-      log("Url: $url");
       final response = await http.post(Uri.parse(url), body: body);
       return _response(response);
     } on SocketException {
@@ -36,7 +34,7 @@ class APIHandler {
   }) async {
     try {
       final url = "$apiBaseUrl$endpoint";
-      log("Url: $url");
+
       final response = await http.put(Uri.parse(url), body: body);
       return _response(response);
     } on SocketException {
@@ -49,7 +47,7 @@ class APIHandler {
   Future<http.Response> get(String endpoint, {String? baseUrl}) async {
     try {
       final url = "${baseUrl ?? apiBaseUrl}$endpoint";
-      log("Url: $url");
+
       final response = await http.get(Uri.parse(url));
       return _response(response);
     } on SocketException {
@@ -60,8 +58,6 @@ class APIHandler {
   }
 
   http.Response _response(http.Response response) {
-    log("Status Code: ${response.statusCode}");
-    log("Response: ${response.body}");
     switch (response.statusCode) {
       case 200:
         return response;
@@ -71,7 +67,7 @@ class APIHandler {
       case 403:
         throw ServerFailure(message: response.body);
       case 500:
-        throw ServerFailure(message: "Internal Server Error");
+        throw ServerFailure(message: 'Internal Server Error');
       default:
         throw ServerFailure(
           message:

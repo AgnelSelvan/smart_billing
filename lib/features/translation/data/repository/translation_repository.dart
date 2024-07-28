@@ -44,4 +44,17 @@ class TranslationRepositoryImpl extends TranslationRepository {
       return Left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Either<Failure, TranslationEntity> getCurrentTranslation() {
+    try {
+      final translation = localDataSource.getCurrentTranslation();
+      if (translation == null) {
+        return Right(TranslationEntity(locale: 'en'));
+      }
+      return Right(translation);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
 }

@@ -13,6 +13,10 @@ class AddTranslationEvent extends TranslationEvent {
   const AddTranslationEvent({required this.params});
 }
 
+class GetCurrentTranslationEvent extends TranslationEvent {
+  const GetCurrentTranslationEvent();
+}
+
 class UpdateTranslationEvent extends TranslationEvent {
   final AddTranslationParams params;
 

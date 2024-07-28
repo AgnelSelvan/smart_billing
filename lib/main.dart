@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,13 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TranslationBloc>(),
+      create: (context) =>
+          getIt<TranslationBloc>()..add(const GetCurrentTranslationEvent()),
       child: ChangeNotifierProvider(
         create: (BuildContext context) =>
             PincodeProvider(getIt<GetPincodeDetailsUseCase>()),
         child: BlocBuilder<TranslationBloc, TranslationState>(
           builder: (context, state) {
-            log('state: $state');
             return MaterialApp(
               title: 'Smart Billing',
               theme: ThemeData(
