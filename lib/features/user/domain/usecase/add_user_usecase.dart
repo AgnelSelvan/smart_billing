@@ -36,5 +36,9 @@ class AddUserParams with _$AddUserParams {
     required DateTime createdAt,
     required UserRole role,
     required UserStatus status,
+    required String? bloodGroup,
+    required String? emergencyMobileNo,
+    required DateTime? dob,
+    required String employeeCode,
   }) = _AddUserParams;
 }

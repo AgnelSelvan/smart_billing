@@ -2,7 +2,7 @@ import 'package:smart_billing/core/extension/string.dart';
 
 class AppValidators {
   static String? nameValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return nameIsRequired;
     } else if (containsNumeric(value)) {
@@ -12,7 +12,7 @@ class AppValidators {
   }
 
   static String? companyNameValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return companyNameIsRequired;
     }
@@ -20,7 +20,7 @@ class AppValidators {
   }
 
   static String? mobileNoValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return mobileNoIsRequired;
     }
@@ -36,7 +36,7 @@ class AppValidators {
   }
 
   static String? mobileNoNotMandatoryValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return null;
     }
@@ -55,7 +55,7 @@ class AppValidators {
   }
 
   static String? emailValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return emailIsRequired;
     }
@@ -67,7 +67,7 @@ class AppValidators {
   }
 
   static String? emailNotMandatoryValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return null;
     }
@@ -79,7 +79,7 @@ class AppValidators {
   }
 
   static String? cityValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return cityIsRequired;
     }
@@ -87,7 +87,7 @@ class AppValidators {
   }
 
   static String? pincodeValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return pincodeIsRequired;
     }
@@ -104,7 +104,7 @@ class AppValidators {
   }
 
   static String? stateValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return stateIsRequired;
     }
@@ -112,44 +112,48 @@ class AppValidators {
   }
 
   static String? addressValidate(String? value) {
-    value ??= "";
+    value ??= '';
     if (value.isEmpty) {
       return addressIsRequired;
     }
     return null;
   }
 
-  static String? fieldRequired(String? value) {
-    value ??= "";
-    if (value.isEmpty) {
+  static String? fieldRequired<T>(T? value) {
+    if (value == null) {
       return thisFieldIsRequired;
+    }
+    if (value is String) {
+      if (value.isEmpty) {
+        return thisFieldIsRequired;
+      }
     }
     return null;
   }
 
-  static String emailIsRequired = "Email is required";
-  static String invalidEmail = "Invalid email";
-  static String thisFieldIsRequired = "This field is required";
+  static String emailIsRequired = 'Email is required';
+  static String invalidEmail = 'Invalid email';
+  static String thisFieldIsRequired = 'This field is required';
 
-  static String nameIsRequired = "Name is required";
+  static String nameIsRequired = 'Name is required';
   static String nameCannotContainNumericValues =
-      "Name cannot contain numeric values";
+      'Name cannot contain numeric values';
 
-  static String companyNameIsRequired = "Company Name is required";
+  static String companyNameIsRequired = 'Company Name is required';
 
-  static String mobileNoIsRequired = "Mobile No is required";
-  static String mobileNoShouldBe10Digit = "Mobile No should be 10 digit";
-  static String pleaseEnterValidMobileNo = "Please enter valid mobile no";
+  static String mobileNoIsRequired = 'Mobile No is required';
+  static String mobileNoShouldBe10Digit = 'Mobile No should be 10 digit';
+  static String pleaseEnterValidMobileNo = 'Please enter valid mobile no';
 
-  static String addressIsRequired = "Address is required";
+  static String addressIsRequired = 'Address is required';
 
-  static String cityIsRequired = "City is required";
+  static String cityIsRequired = 'City is required';
 
-  static String stateIsRequired = "State is required";
+  static String stateIsRequired = 'State is required';
 
-  static String pincodeIsRequired = "Pincode is required";
-  static String pincodeShouldBe6Digit = "Pincode should be 6 digit";
-  static String pleaseEnterValidPincode = "Please enter valid pincode";
+  static String pincodeIsRequired = 'Pincode is required';
+  static String pincodeShouldBe6Digit = 'Pincode should be 6 digit';
+  static String pleaseEnterValidPincode = 'Please enter valid pincode';
 
   static List<String> allValidatorString = [
     emailIsRequired,

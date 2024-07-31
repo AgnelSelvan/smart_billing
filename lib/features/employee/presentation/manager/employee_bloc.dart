@@ -1,0 +1,55 @@
+import 'dart:developer';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/errors/failure.dart';
+import 'package:smart_billing/core/extension/dartz.dart';
+import 'package:smart_billing/core/utils/usecase.dart';
+import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
+import 'package:smart_billing/features/user/domain/usecase/add_user_usecase.dart';
+import 'package:smart_billing/features/user/domain/usecase/get_all_user_usecase.dart';
+
+part 'employee_event.dart';
+part 'employee_state.dart';
+
+@injectable
+class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
+  final formKey = GlobalKey<FormBuilderState>();
+  final AddUserUseCase addUserUseCase;
+  final GetAllUserUseCase getAllUserUseCase;
+  EmployeeBloc(
+    this.addUserUseCase,
+    this.getAllUserUseCase,
+  ) : super(const EmployeeState(userEntities: [])) {
+    on<AddEmployeeEvent>((event, emit) async {
+      final response = await addUserUseCase.call(event.addUserParams);
+      log('response: $response');
+      if (response.isLeft()) {
+        emit(state.emitError(response.asLeft()));
+      } else {
+        emit(state.emitLoaded(
+          userEntity: response.asRight(),
+        ));
+        add(const GetAllEmployeeEvent());
+      }
+    });
+
+    on<GetAllEmployeeEvent>((event, emit) async {
+      final response = await getAllUserUseCase.call(NoParams());
+      if (response.isLeft()) {
+        emit(state.emitError(response.asLeft()));
+      } else {
+        formKey.currentState?.patchValue({
+          'employeeCode': (response.asRight().length + 1).toString(),
+        });
+        emit(state.emitLoaded(
+          userEntities: response.asRight(),
+          userEntity: null,
+        ));
+      }
+    });
+  }
+}

@@ -118,13 +118,17 @@ class UserModelAdapter extends TypeAdapter<_$UserModelImpl> {
       updatedAt: fields[11] as DateTime,
       role: fields[12] as UserRole,
       status: fields[13] as UserStatus,
+      bloodGroup: fields[14] as String?,
+      emergencyMobileNo: fields[15] as String?,
+      dob: fields[16] as DateTime?,
+      employeeCode: fields[17] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$UserModelImpl obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -150,7 +154,15 @@ class UserModelAdapter extends TypeAdapter<_$UserModelImpl> {
       ..writeByte(12)
       ..write(obj.role)
       ..writeByte(13)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(14)
+      ..write(obj.bloodGroup)
+      ..writeByte(15)
+      ..write(obj.emergencyMobileNo)
+      ..writeByte(16)
+      ..write(obj.dob)
+      ..writeByte(17)
+      ..write(obj.employeeCode);
   }
 
   @override
@@ -184,6 +196,10 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       role: $enumDecode(_$UserRoleEnumMap, json['role']),
       status: $enumDecode(_$UserStatusEnumMap, json['status']),
+      bloodGroup: json['bloodGroup'] as String?,
+      emergencyMobileNo: json['emergencyMobileNo'] as String?,
+      dob: json['dob'] == null ? null : DateTime.parse(json['dob'] as String),
+      employeeCode: json['employeeCode'] as String,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -201,6 +217,10 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'updatedAt': instance.updatedAt.toIso8601String(),
       'role': _$UserRoleEnumMap[instance.role]!,
       'status': _$UserStatusEnumMap[instance.status]!,
+      'bloodGroup': instance.bloodGroup,
+      'emergencyMobileNo': instance.emergencyMobileNo,
+      'dob': instance.dob?.toIso8601String(),
+      'employeeCode': instance.employeeCode,
     };
 
 const _$UserRoleEnumMap = {

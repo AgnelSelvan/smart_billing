@@ -6,7 +6,9 @@ import 'package:smart_billing/features/translation/presentation/pages/translatio
 
 abstract class AppBlocStatelessWidget<B extends StateStreamable<S>, S>
     extends StatelessWidget {
-  const AppBlocStatelessWidget({super.key});
+  const AppBlocStatelessWidget({super.key, this.showTranslation = false});
+
+  final bool showTranslation;
 
   B bloc(BuildContext context) => context.read<B>();
 
@@ -24,10 +26,11 @@ abstract class AppBlocStatelessWidget<B extends StateStreamable<S>, S>
             listener(context, bloc(context), state);
           },
         ),
-        const Align(
-          alignment: Alignment.topRight,
-          child: TranslationDropdownButton(),
-        ),
+        if (showTranslation)
+          const Align(
+            alignment: Alignment.topRight,
+            child: TranslationDropdownButton(),
+          ),
         if (kDebugMode)
           Align(
             alignment: Alignment.bottomRight,
@@ -47,17 +50,20 @@ abstract class AppBlocStatelessWidget<B extends StateStreamable<S>, S>
 }
 
 abstract class AppStatelessWidget extends StatelessWidget {
-  const AppStatelessWidget({super.key});
+  const AppStatelessWidget({super.key, this.showTranslation = false});
+
+  final bool showTranslation;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         buildView(context),
-        const Align(
-          alignment: Alignment.topRight,
-          child: TranslationDropdownButton(),
-        ),
+        if (showTranslation)
+          const Align(
+            alignment: Alignment.topRight,
+            child: TranslationDropdownButton(),
+          ),
         if (kDebugMode)
           Align(
             alignment: Alignment.bottomRight,

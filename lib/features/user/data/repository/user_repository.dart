@@ -32,6 +32,10 @@ class UserRepositoryImpl extends UserRepository {
           city: userParams.city,
           state: userParams.state,
           pincode: userParams.pincode,
+          employeeCode: userParams.employeeCode,
+          bloodGroup: userParams.bloodGroup,
+          emergencyMobileNo: userParams.emergencyMobileNo,
+          dob: userParams.dob,
         ),
       );
       return Right(user);

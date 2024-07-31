@@ -17,5 +17,9 @@ class UserEntity with _$UserEntity {
     int? pincode,
     required UserRole role,
     required UserStatus status,
+    required String? bloodGroup,
+    required DateTime? dob,
+    required String? emergencyContact,
+    required String? employeeCode,
   }) = _UserEntity;
 }

@@ -38,6 +38,10 @@ import 'package:smart_billing/features/company/domain/usecase/get_all_company_us
     as _i427;
 import 'package:smart_billing/features/company/domain/usecase/get_my_own_company.dart'
     as _i167;
+import 'package:smart_billing/features/employee/presentation/manager/employee_bloc.dart'
+    as _i783;
+import 'package:smart_billing/features/home/presentation/manager/home_bloc.dart'
+    as _i736;
 import 'package:smart_billing/features/login/presentation/manager/login_bloc.dart'
     as _i804;
 import 'package:smart_billing/features/pincode/data/datasources/remote_data_source.dart'
@@ -106,6 +110,7 @@ Future<_i174.GetIt> init(
   gh.factory<_i11.AppEnvironments>(() => _i11.AppEnvironments());
   gh.factory<_i988.EncryptDecryptManager>(() => _i988.EncryptDecryptManager());
   gh.factory<_i672.APIHandler>(() => _i672.APIHandler());
+  gh.factory<_i736.HomeBloc>(() => _i736.HomeBloc());
   await gh.lazySingletonAsync<_i744.Box<_i353.CompanyModel>>(
     () => hiveBoxModule.openCompanyBox(),
     preResolve: true,
@@ -189,6 +194,10 @@ Future<_i174.GetIt> init(
         gh<_i18.AddTranslationUseCase>(),
         gh<_i610.UpdateTranslationUseCase>(),
         gh<_i212.GetCurrentTranslationUseCase>(),
+      ));
+  gh.factory<_i783.EmployeeBloc>(() => _i783.EmployeeBloc(
+        gh<_i449.AddUserUseCase>(),
+        gh<_i20.GetAllUserUseCase>(),
       ));
   gh.factory<_i153.RegisterBloc>(() => _i153.RegisterBloc(
         gh<_i449.AddUserUseCase>(),

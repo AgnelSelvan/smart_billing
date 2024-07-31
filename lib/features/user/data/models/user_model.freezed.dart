@@ -72,6 +72,22 @@ mixin _$UserModel {
   UserStatus get status => throw _privateConstructorUsedError;
   @HiveField(13)
   set status(UserStatus value) => throw _privateConstructorUsedError;
+  @HiveField(14)
+  String? get bloodGroup => throw _privateConstructorUsedError;
+  @HiveField(14)
+  set bloodGroup(String? value) => throw _privateConstructorUsedError;
+  @HiveField(15)
+  String? get emergencyMobileNo => throw _privateConstructorUsedError;
+  @HiveField(15)
+  set emergencyMobileNo(String? value) => throw _privateConstructorUsedError;
+  @HiveField(16)
+  DateTime? get dob => throw _privateConstructorUsedError;
+  @HiveField(16)
+  set dob(DateTime? value) => throw _privateConstructorUsedError;
+  @HiveField(17)
+  String get employeeCode => throw _privateConstructorUsedError;
+  @HiveField(17)
+  set employeeCode(String value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -97,7 +113,11 @@ abstract class $UserModelCopyWith<$Res> {
       @HiveField(10) DateTime createdAt,
       @HiveField(11) DateTime updatedAt,
       @HiveField(12) UserRole role,
-      @HiveField(13) UserStatus status});
+      @HiveField(13) UserStatus status,
+      @HiveField(14) String? bloodGroup,
+      @HiveField(15) String? emergencyMobileNo,
+      @HiveField(16) DateTime? dob,
+      @HiveField(17) String employeeCode});
 }
 
 /// @nodoc
@@ -126,6 +146,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? updatedAt = null,
     Object? role = null,
     Object? status = null,
+    Object? bloodGroup = freezed,
+    Object? emergencyMobileNo = freezed,
+    Object? dob = freezed,
+    Object? employeeCode = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -180,6 +204,22 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as UserStatus,
+      bloodGroup: freezed == bloodGroup
+          ? _value.bloodGroup
+          : bloodGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emergencyMobileNo: freezed == emergencyMobileNo
+          ? _value.emergencyMobileNo
+          : emergencyMobileNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      employeeCode: null == employeeCode
+          ? _value.employeeCode
+          : employeeCode // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -205,7 +245,11 @@ abstract class _$$UserModelImplCopyWith<$Res>
       @HiveField(10) DateTime createdAt,
       @HiveField(11) DateTime updatedAt,
       @HiveField(12) UserRole role,
-      @HiveField(13) UserStatus status});
+      @HiveField(13) UserStatus status,
+      @HiveField(14) String? bloodGroup,
+      @HiveField(15) String? emergencyMobileNo,
+      @HiveField(16) DateTime? dob,
+      @HiveField(17) String employeeCode});
 }
 
 /// @nodoc
@@ -232,6 +276,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? role = null,
     Object? status = null,
+    Object? bloodGroup = freezed,
+    Object? emergencyMobileNo = freezed,
+    Object? dob = freezed,
+    Object? employeeCode = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -286,6 +334,22 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as UserStatus,
+      bloodGroup: freezed == bloodGroup
+          ? _value.bloodGroup
+          : bloodGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emergencyMobileNo: freezed == emergencyMobileNo
+          ? _value.emergencyMobileNo
+          : emergencyMobileNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      employeeCode: null == employeeCode
+          ? _value.employeeCode
+          : employeeCode // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -307,7 +371,11 @@ class _$UserModelImpl extends _UserModel {
       @HiveField(10) required this.createdAt,
       @HiveField(11) required this.updatedAt,
       @HiveField(12) required this.role,
-      @HiveField(13) required this.status})
+      @HiveField(13) required this.status,
+      @HiveField(14) this.bloodGroup,
+      @HiveField(15) this.emergencyMobileNo,
+      @HiveField(16) this.dob,
+      @HiveField(17) required this.employeeCode})
       : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -352,10 +420,22 @@ class _$UserModelImpl extends _UserModel {
   @override
   @HiveField(13)
   UserStatus status;
+  @override
+  @HiveField(14)
+  String? bloodGroup;
+  @override
+  @HiveField(15)
+  String? emergencyMobileNo;
+  @override
+  @HiveField(16)
+  DateTime? dob;
+  @override
+  @HiveField(17)
+  String employeeCode;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, createdAt: $createdAt, updatedAt: $updatedAt, role: $role, status: $status)';
+    return 'UserModel(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, createdAt: $createdAt, updatedAt: $updatedAt, role: $role, status: $status, bloodGroup: $bloodGroup, emergencyMobileNo: $emergencyMobileNo, dob: $dob, employeeCode: $employeeCode)';
   }
 
   @JsonKey(ignore: true)
@@ -386,7 +466,11 @@ abstract class _UserModel extends UserModel {
       @HiveField(10) required DateTime createdAt,
       @HiveField(11) required DateTime updatedAt,
       @HiveField(12) required UserRole role,
-      @HiveField(13) required UserStatus status}) = _$UserModelImpl;
+      @HiveField(13) required UserStatus status,
+      @HiveField(14) String? bloodGroup,
+      @HiveField(15) String? emergencyMobileNo,
+      @HiveField(16) DateTime? dob,
+      @HiveField(17) required String employeeCode}) = _$UserModelImpl;
   _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -457,6 +541,26 @@ abstract class _UserModel extends UserModel {
   UserStatus get status;
   @HiveField(13)
   set status(UserStatus value);
+  @override
+  @HiveField(14)
+  String? get bloodGroup;
+  @HiveField(14)
+  set bloodGroup(String? value);
+  @override
+  @HiveField(15)
+  String? get emergencyMobileNo;
+  @HiveField(15)
+  set emergencyMobileNo(String? value);
+  @override
+  @HiveField(16)
+  DateTime? get dob;
+  @HiveField(16)
+  set dob(DateTime? value);
+  @override
+  @HiveField(17)
+  String get employeeCode;
+  @HiveField(17)
+  set employeeCode(String value);
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

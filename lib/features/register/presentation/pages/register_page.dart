@@ -243,6 +243,10 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                                           createdAt: DateTime.now(),
                                           role: UserRole.owner,
                                           status: UserStatus.active,
+                                          bloodGroup: null,
+                                          emergencyMobileNo: null,
+                                          dob: null,
+                                          employeeCode: '1',
                                         ),
                                         addCompanyParams: AddCompanyParams(
                                           address:

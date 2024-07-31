@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_ui/boxes_view.dart';
 import 'package:smart_billing/core/di/di.dart';
 import 'package:smart_billing/core/di/module/hive_module.dart';
+import 'package:smart_billing/features/employee/presentation/manager/employee_bloc.dart';
+import 'package:smart_billing/features/employee/presentation/pages/add_employee.dart';
+import 'package:smart_billing/features/home/presentation/manager/home_bloc.dart';
 import 'package:smart_billing/features/home/presentation/pages/home_page.dart';
 import 'package:smart_billing/features/login/presentation/manager/login_bloc.dart';
 import 'package:smart_billing/features/login/presentation/pages/login_page.dart';
@@ -17,11 +20,30 @@ class AppRoutes {
   static const registerCompanyPage = '/register/company';
   static const loginPage = '/login';
   static const viewHivePage = '/view/hive';
+  static const addEmployeePage = '/add/employee';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homePage:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) {
+              return getIt<HomeBloc>();
+            },
+            child: const HomePage(),
+          ),
+        );
+      case addEmployeePage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) {
+              return getIt<EmployeeBloc>()..add(const GetAllEmployeeEvent());
+            },
+            child: const AddEmployeePage(
+              crud: Crud.add,
+            ),
+          ),
+        );
       case registerCompanyPage:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

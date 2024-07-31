@@ -28,6 +28,10 @@ mixin _$AddUserParams {
   DateTime get createdAt => throw _privateConstructorUsedError;
   UserRole get role => throw _privateConstructorUsedError;
   UserStatus get status => throw _privateConstructorUsedError;
+  String? get bloodGroup => throw _privateConstructorUsedError;
+  String? get emergencyMobileNo => throw _privateConstructorUsedError;
+  DateTime? get dob => throw _privateConstructorUsedError;
+  String get employeeCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AddUserParamsCopyWith<AddUserParams> get copyWith =>
@@ -52,7 +56,11 @@ abstract class $AddUserParamsCopyWith<$Res> {
       int? pincode,
       DateTime createdAt,
       UserRole role,
-      UserStatus status});
+      UserStatus status,
+      String? bloodGroup,
+      String? emergencyMobileNo,
+      DateTime? dob,
+      String employeeCode});
 }
 
 /// @nodoc
@@ -80,6 +88,10 @@ class _$AddUserParamsCopyWithImpl<$Res, $Val extends AddUserParams>
     Object? createdAt = null,
     Object? role = null,
     Object? status = null,
+    Object? bloodGroup = freezed,
+    Object? emergencyMobileNo = freezed,
+    Object? dob = freezed,
+    Object? employeeCode = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -130,6 +142,22 @@ class _$AddUserParamsCopyWithImpl<$Res, $Val extends AddUserParams>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as UserStatus,
+      bloodGroup: freezed == bloodGroup
+          ? _value.bloodGroup
+          : bloodGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emergencyMobileNo: freezed == emergencyMobileNo
+          ? _value.emergencyMobileNo
+          : emergencyMobileNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      employeeCode: null == employeeCode
+          ? _value.employeeCode
+          : employeeCode // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -154,7 +182,11 @@ abstract class _$$AddUserParamsImplCopyWith<$Res>
       int? pincode,
       DateTime createdAt,
       UserRole role,
-      UserStatus status});
+      UserStatus status,
+      String? bloodGroup,
+      String? emergencyMobileNo,
+      DateTime? dob,
+      String employeeCode});
 }
 
 /// @nodoc
@@ -180,6 +212,10 @@ class __$$AddUserParamsImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? role = null,
     Object? status = null,
+    Object? bloodGroup = freezed,
+    Object? emergencyMobileNo = freezed,
+    Object? dob = freezed,
+    Object? employeeCode = null,
   }) {
     return _then(_$AddUserParamsImpl(
       id: null == id
@@ -230,6 +266,22 @@ class __$$AddUserParamsImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as UserStatus,
+      bloodGroup: freezed == bloodGroup
+          ? _value.bloodGroup
+          : bloodGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emergencyMobileNo: freezed == emergencyMobileNo
+          ? _value.emergencyMobileNo
+          : emergencyMobileNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      employeeCode: null == employeeCode
+          ? _value.employeeCode
+          : employeeCode // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -249,7 +301,11 @@ class _$AddUserParamsImpl implements _AddUserParams {
       required this.pincode,
       required this.createdAt,
       required this.role,
-      required this.status})
+      required this.status,
+      required this.bloodGroup,
+      required this.emergencyMobileNo,
+      required this.dob,
+      required this.employeeCode})
       : _mobile = mobile;
 
   @override
@@ -282,10 +338,18 @@ class _$AddUserParamsImpl implements _AddUserParams {
   final UserRole role;
   @override
   final UserStatus status;
+  @override
+  final String? bloodGroup;
+  @override
+  final String? emergencyMobileNo;
+  @override
+  final DateTime? dob;
+  @override
+  final String employeeCode;
 
   @override
   String toString() {
-    return 'AddUserParams(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, createdAt: $createdAt, role: $role, status: $status)';
+    return 'AddUserParams(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, createdAt: $createdAt, role: $role, status: $status, bloodGroup: $bloodGroup, emergencyMobileNo: $emergencyMobileNo, dob: $dob, employeeCode: $employeeCode)';
   }
 
   @override
@@ -306,7 +370,14 @@ class _$AddUserParamsImpl implements _AddUserParams {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.bloodGroup, bloodGroup) ||
+                other.bloodGroup == bloodGroup) &&
+            (identical(other.emergencyMobileNo, emergencyMobileNo) ||
+                other.emergencyMobileNo == emergencyMobileNo) &&
+            (identical(other.dob, dob) || other.dob == dob) &&
+            (identical(other.employeeCode, employeeCode) ||
+                other.employeeCode == employeeCode));
   }
 
   @override
@@ -323,7 +394,11 @@ class _$AddUserParamsImpl implements _AddUserParams {
       pincode,
       createdAt,
       role,
-      status);
+      status,
+      bloodGroup,
+      emergencyMobileNo,
+      dob,
+      employeeCode);
 
   @JsonKey(ignore: true)
   @override
@@ -345,7 +420,11 @@ abstract class _AddUserParams implements AddUserParams {
       required final int? pincode,
       required final DateTime createdAt,
       required final UserRole role,
-      required final UserStatus status}) = _$AddUserParamsImpl;
+      required final UserStatus status,
+      required final String? bloodGroup,
+      required final String? emergencyMobileNo,
+      required final DateTime? dob,
+      required final String employeeCode}) = _$AddUserParamsImpl;
 
   @override
   String get id;
@@ -371,6 +450,14 @@ abstract class _AddUserParams implements AddUserParams {
   UserRole get role;
   @override
   UserStatus get status;
+  @override
+  String? get bloodGroup;
+  @override
+  String? get emergencyMobileNo;
+  @override
+  DateTime? get dob;
+  @override
+  String get employeeCode;
   @override
   @JsonKey(ignore: true)
   _$$AddUserParamsImplCopyWith<_$AddUserParamsImpl> get copyWith =>

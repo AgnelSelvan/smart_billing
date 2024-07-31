@@ -20,10 +20,34 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
 
   UserLocalDataSourceImpl({required this.userBox});
 
+  Future<bool> _validate(UserModel userModel) async {
+    if (userModel.email == null || userModel.email!.isEmpty) {
+      throw Exception('Email is required');
+    }
+    if (userModel.mobile.isEmpty) {
+      throw Exception('Mobile number is required');
+    }
+    if (userModel.password.isEmpty) {
+      throw Exception('Password is required');
+    }
+    final users = await getAllUsers();
+    final sameUser = users
+        .where((e) => e.mobile.contains(userModel.mobile.firstOrNull))
+        .firstOrNull;
+    if (sameUser != null) {
+      throw Exception('User already exists with this mobile number');
+    }
+    return true;
+  }
+
   @override
   Future<UserEntity> addUser(UserModel userModel) async {
-    await userBox.add(userModel);
-    return userModel.toEntity();
+    final isValid = await _validate(userModel);
+    if (isValid) {
+      await userBox.add(userModel);
+      return userModel.toEntity();
+    }
+    throw Exception('User not added');
   }
 
   @override
@@ -45,8 +69,12 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
 
   @override
   Future<UserEntity> updateUser(UserModel userModel) async {
-    await userBox.put(userModel.key, userModel);
-    return userModel.toEntity();
+    final isValid = await _validate(userModel);
+    if (isValid) {
+      await userBox.put(userModel.key, userModel);
+      return userModel.toEntity();
+    }
+    throw Exception('User not updated');
   }
 
   @override
