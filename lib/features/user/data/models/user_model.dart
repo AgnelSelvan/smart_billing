@@ -30,6 +30,11 @@ enum UserStatus {
   active,
   @HiveField(1)
   inactive;
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 @unfreezed

@@ -10,6 +10,6 @@ class EmployeePage extends AppStatelessWidget {
 
   @override
   Widget buildView(BuildContext context) {
-    return const EmployeeListingScreen();
+    return EmployeeListingScreen();
   }
 }

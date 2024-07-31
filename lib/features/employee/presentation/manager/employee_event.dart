@@ -18,3 +18,15 @@ class AddEmployeeEvent extends EmployeeEvent {
 class GetAllEmployeeEvent extends EmployeeEvent {
   const GetAllEmployeeEvent();
 }
+
+class UpdateEmployeeListingBasedOnSearchAndSortEvent extends EmployeeEvent {
+  final String search;
+  final EmployeeSortBy sortBy;
+  final EmployeeSearchCategory searchCategory;
+
+  const UpdateEmployeeListingBasedOnSearchAndSortEvent({
+    required this.search,
+    required this.sortBy,
+    required this.searchCategory,
+  });
+}

@@ -29,7 +29,7 @@ enum SortBy {
 enum EmployeeSortBy {
   userCode,
   createdAt,
-  firstName,
+  name,
   state,
   city;
 
@@ -37,8 +37,8 @@ enum EmployeeSortBy {
     switch (this) {
       case EmployeeSortBy.createdAt:
         return 'Created At';
-      case EmployeeSortBy.firstName:
-        return 'First Name';
+      case EmployeeSortBy.name:
+        return 'Name';
       case EmployeeSortBy.userCode:
         return 'Employee Code';
       case EmployeeSortBy.state:
@@ -52,8 +52,8 @@ enum EmployeeSortBy {
     switch (rawValue) {
       case 'Created At':
         return EmployeeSortBy.createdAt;
-      case 'First Name':
-        return EmployeeSortBy.firstName;
+      case 'Name':
+        return EmployeeSortBy.name;
       case 'Employee Code':
         return EmployeeSortBy.userCode;
       case 'State':

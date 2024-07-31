@@ -86,6 +86,8 @@ import 'package:smart_billing/features/user/domain/usecase/delete_user_usecase.d
     as _i53;
 import 'package:smart_billing/features/user/domain/usecase/get_a_user_usecase.dart'
     as _i400;
+import 'package:smart_billing/features/user/domain/usecase/get_all_user_by_search.dart'
+    as _i387;
 import 'package:smart_billing/features/user/domain/usecase/get_all_user_usecase.dart'
     as _i20;
 import 'package:smart_billing/features/user/domain/usecase/get_user_by_email_or_mobile.dart'
@@ -178,10 +180,17 @@ Future<_i174.GetIt> init(
           repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i454.UserLoginUseCase>(
       () => _i454.UserLoginUseCase(repository: gh<_i431.UserRepository>()));
+  gh.lazySingleton<_i387.GetAllUserBySearchUseCase>(() =>
+      _i387.GetAllUserBySearchUseCase(repository: gh<_i431.UserRepository>()));
   gh.factory<_i765.SplashBloc>(
       () => _i765.SplashBloc(gh<_i167.GetMyOwnCompanyUsecase>()));
   gh.factory<_i804.LoginBloc>(
       () => _i804.LoginBloc(gh<_i454.UserLoginUseCase>()));
+  gh.factory<_i783.EmployeeBloc>(() => _i783.EmployeeBloc(
+        gh<_i449.AddUserUseCase>(),
+        gh<_i20.GetAllUserUseCase>(),
+        gh<_i387.GetAllUserBySearchUseCase>(),
+      ));
   gh.lazySingleton<_i212.GetCurrentTranslationUseCase>(() =>
       _i212.GetCurrentTranslationUseCase(
           repository: gh<_i387.TranslationRepository>()));
@@ -194,10 +203,6 @@ Future<_i174.GetIt> init(
         gh<_i18.AddTranslationUseCase>(),
         gh<_i610.UpdateTranslationUseCase>(),
         gh<_i212.GetCurrentTranslationUseCase>(),
-      ));
-  gh.factory<_i783.EmployeeBloc>(() => _i783.EmployeeBloc(
-        gh<_i449.AddUserUseCase>(),
-        gh<_i20.GetAllUserUseCase>(),
       ));
   gh.factory<_i153.RegisterBloc>(() => _i153.RegisterBloc(
         gh<_i449.AddUserUseCase>(),

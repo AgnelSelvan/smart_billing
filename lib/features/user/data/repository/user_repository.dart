@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/enum/search.dart';
+import 'package:smart_billing/core/enum/sort.dart';
 import 'package:smart_billing/core/errors/failure.dart';
 import 'package:smart_billing/features/user/data/datasource/user_local_datasource.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
@@ -108,6 +110,21 @@ class UserRepositoryImpl extends UserRepository {
       final user = localDataSource.userLogin(email, password);
       if (user == null) {
         return Left(Failure(message: 'User not found'));
+      }
+      return Right(user);
+    } on Exception catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, List<UserEntity>> getAllUsersBySearch(
+      String search, EmployeeSearchCategory category, EmployeeSortBy sortBy) {
+    try {
+      final user =
+          localDataSource.getAllUsersBySearch(search, category, sortBy);
+      if (user.isEmpty) {
+        return Left(Failure(message: 'No user found'));
       }
       return Right(user);
     } on Exception catch (e) {

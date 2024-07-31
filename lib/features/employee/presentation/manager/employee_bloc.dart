@@ -5,11 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/enum/search.dart';
+import 'package:smart_billing/core/enum/sort.dart';
 import 'package:smart_billing/core/errors/failure.dart';
 import 'package:smart_billing/core/extension/dartz.dart';
 import 'package:smart_billing/core/utils/usecase.dart';
 import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 import 'package:smart_billing/features/user/domain/usecase/add_user_usecase.dart';
+import 'package:smart_billing/features/user/domain/usecase/get_all_user_by_search.dart';
 import 'package:smart_billing/features/user/domain/usecase/get_all_user_usecase.dart';
 
 part 'employee_event.dart';
@@ -20,9 +23,11 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   final formKey = GlobalKey<FormBuilderState>();
   final AddUserUseCase addUserUseCase;
   final GetAllUserUseCase getAllUserUseCase;
+  final GetAllUserBySearchUseCase getAllUserBySearchUseCase;
   EmployeeBloc(
     this.addUserUseCase,
     this.getAllUserUseCase,
+    this.getAllUserBySearchUseCase,
   ) : super(const EmployeeState(userEntities: [])) {
     on<AddEmployeeEvent>((event, emit) async {
       final response = await addUserUseCase.call(event.addUserParams);
@@ -30,7 +35,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       if (response.isLeft()) {
         emit(state.emitError(response.asLeft()));
       } else {
-        emit(state.emitLoaded(
+        emit(state.emitAddState(
           userEntity: response.asRight(),
         ));
         add(const GetAllEmployeeEvent());
@@ -47,7 +52,20 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
         });
         emit(state.emitLoaded(
           userEntities: response.asRight(),
-          userEntity: null,
+        ));
+      }
+    });
+
+    on<UpdateEmployeeListingBasedOnSearchAndSortEvent>((event, emit) async {
+      final response = getAllUserBySearchUseCase
+          .call((event.search, event.searchCategory, event.sortBy));
+      if (response.isLeft()) {
+        emit(state.emitError(response.asLeft()));
+      } else {
+        emit(state.emitLoaded(
+          userEntities: response.asRight(),
+          searchCategory: event.searchCategory,
+          sortBy: event.sortBy,
         ));
       }
     });

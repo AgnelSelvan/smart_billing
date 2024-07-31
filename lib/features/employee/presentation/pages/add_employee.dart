@@ -32,12 +32,13 @@ class AddEmployeePage
 
   @override
   void listener(BuildContext context, EmployeeBloc bloc, EmployeeState state) {
+    print('state: ${state.runtimeType}');
     if (state is EmployeeErrorState) {
       AppToastMessenger.showErrorMessage(
         context,
         message: state.message.toString(),
       );
-    } else if (state is EmployeeLoadedState) {
+    } else if (state is AddedEmployeeState) {
       bloc.formKey.currentState?.reset();
       final pincodeProvider = context.read<PincodeProvider>();
       pincodeProvider.formKey.currentState?.reset();

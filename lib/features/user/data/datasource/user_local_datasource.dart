@@ -1,5 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/enum/search.dart';
+import 'package:smart_billing/core/enum/sort.dart';
 import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
 import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
@@ -12,6 +14,11 @@ abstract class UserLocalDataSource {
   Future<UserModel?> getUserById(String id);
   UserEntity? getUserByEmailOrMobileNo(String email);
   UserEntity? userLogin(String email, String password);
+  List<UserEntity> getAllUsersBySearch(
+    String search,
+    EmployeeSearchCategory category,
+    EmployeeSortBy sortBy,
+  );
 }
 
 @LazySingleton(as: UserLocalDataSource)
@@ -102,5 +109,73 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
     } else {
       throw Exception('Invalid password');
     }
+  }
+
+  @override
+  List<UserEntity> getAllUsersBySearch(
+      String search, EmployeeSearchCategory category, EmployeeSortBy sortBy) {
+    print('DS search: $search category: $category sortBy: $sortBy');
+
+    List<UserModel> users = userBox.values.toList();
+    if (search.isNotEmpty) {
+      if (category == EmployeeSearchCategory.email) {
+        users = users
+            .where((e) =>
+                (e.email ?? '').toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.name) {
+        users = users
+            .where((e) => (e.name).toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.city) {
+        users = users
+            .where((e) =>
+                (e.city ?? '').toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.mobileNo) {
+        users = users
+            .where((e) => e.mobile
+                .toString()
+                .toLowerCase()
+                .contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.pincode) {
+        users = users
+            .where((e) => (e.pincode ?? 0)
+                .toString()
+                .toLowerCase()
+                .contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.role) {
+        users = users
+            .where(
+                (e) => e.role.name.toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.state) {
+        users = users
+            .where((e) =>
+                (e.state ?? '').toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      } else if (category == EmployeeSearchCategory.userCode) {
+        users = users
+            .where((e) =>
+                (e.employeeCode).toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      }
+    }
+    if (sortBy == EmployeeSortBy.name) {
+      users
+          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    } else if (sortBy == EmployeeSortBy.city) {
+      users.sort((a, b) => (a.city ?? '').compareTo((b.city ?? '')));
+    } else if (sortBy == EmployeeSortBy.createdAt) {
+      users.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    } else if (sortBy == EmployeeSortBy.state) {
+      users.sort((a, b) => (a.state ?? '').compareTo((b.state ?? '')));
+    } else if (sortBy == EmployeeSortBy.userCode) {
+      users.sort((a, b) => a.employeeCode.compareTo(b.employeeCode));
+    }
+    print('all users: ${users.map((e) => e.name)}');
+    return users.map((e) => e.toEntity()).toList();
   }
 }
