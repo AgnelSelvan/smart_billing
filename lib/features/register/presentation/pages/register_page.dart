@@ -37,7 +37,7 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
   @override
   Widget buildView(
       BuildContext context, RegisterBloc bloc, RegisterState state) {
-    final pincodeProvide = context.read<PincodeProvider>();
+    final pincodeProvider = context.read<PincodeProvider>();
     return Scaffold(
       body: FormBuilder(
         key: bloc.formKey,
@@ -213,14 +213,14 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                                   final employeeValidate =
                                       bloc.formKey.currentState?.validate() ??
                                           false;
-                                  final pincodeValidate = pincodeProvide
+                                  final pincodeValidate = pincodeProvider
                                           .formKey.currentState
                                           ?.validate() ??
                                       false;
                                   if (pincodeValidate && employeeValidate) {
                                     final employeeData =
                                         bloc.formKey.currentState?.instantValue;
-                                    final pincodeData = pincodeProvide
+                                    final pincodeData = pincodeProvider
                                         .formKey.currentState?.instantValue;
                                     final pincode = int.tryParse(
                                             pincodeData?['pincode'] ?? '') ??
@@ -232,7 +232,8 @@ class RegisterPage extends AppBlocStatelessWidget<RegisterBloc, RegisterState> {
                                           email: employeeData?['email'],
                                           mobile: [employeeData?['mobileNo']],
                                           password:
-                                              EncryptDecryptManager.encrypt(
+                                              getIt<EncryptDecryptManager>()
+                                                  .encrypt(
                                             employeeData?['password'] ?? '',
                                           ),
                                           id: const Uuid().v4(),

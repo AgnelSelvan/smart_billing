@@ -13,6 +13,7 @@ import 'package:smart_billing/features/register/presentation/manager/register_bl
 import 'package:smart_billing/features/register/presentation/pages/register_page.dart';
 import 'package:smart_billing/features/splash/presentation/manager/splash_bloc.dart';
 import 'package:smart_billing/features/splash/presentation/pages/splash_page.dart';
+import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 
 class AppRoutes {
   static const splashPage = '/';
@@ -21,6 +22,7 @@ class AppRoutes {
   static const loginPage = '/login';
   static const viewHivePage = '/view/hive';
   static const addEmployeePage = '/add/employee';
+  static const updateEmployeePage = '/update/employee';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -41,6 +43,21 @@ class AppRoutes {
             },
             child: const AddEmployeePage(
               crud: Crud.add,
+            ),
+          ),
+        );
+      case updateEmployeePage:
+        final args = settings.arguments as Map<String, dynamic>;
+        final user = args['user'] as UserEntity;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (BuildContext context) {
+              return getIt<EmployeeBloc>(param1: user)
+                ..add(const GetAllEmployeeEvent());
+            },
+            child: AddEmployeePage(
+              crud: Crud.update,
+              userEntity: user,
             ),
           ),
         );

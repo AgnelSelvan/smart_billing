@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:smart_billing/core/di/di.dart';
 import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
 import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 import 'package:uuid/uuid.dart';
@@ -73,7 +74,7 @@ class UserModel extends HiveObject with _$UserModel {
       id: const Uuid().v4(),
       name: json?['name'],
       email: json?['email'],
-      password: EncryptDecryptManager.encrypt(json?['password'] ?? ''),
+      password: getIt<EncryptDecryptManager>().encrypt(json?['password'] ?? ''),
       mobile: json?['mobileNo'] == null ? [] : [json?['mobileNo']],
       address: json?['address'],
       city: pincode?['city'],
@@ -82,7 +83,7 @@ class UserModel extends HiveObject with _$UserModel {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       role: json?['role'],
-      status: UserStatus.active,
+      status: json?['userStatus'],
       bloodGroup: json?['bloodGroup'],
       emergencyMobileNo: json?['emergencyMobileNo'],
       dob: json?['dob'],
@@ -109,6 +110,7 @@ extension Helper on UserModel {
       bloodGroup: bloodGroup,
       dob: dob,
       emergencyContact: emergencyMobileNo,
+      createdAt: createdAt,
     );
   }
 }

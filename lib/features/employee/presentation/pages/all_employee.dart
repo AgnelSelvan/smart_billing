@@ -19,8 +19,6 @@ class EmployeeListingScreen
   void _onSearch(EmployeeBloc bloc, EmployeeSearchCategory searchCategory,
       EmployeeSortBy sortBy) {
     final search = formKey.currentState?.fields['search']?.value;
-    print(
-        '_onSearch search: $search, searchCategory: $searchCategory, sortBy: $sortBy');
     bloc.add(
       UpdateEmployeeListingBasedOnSearchAndSortEvent(
         search: search ?? '',
@@ -133,7 +131,18 @@ class EmployeeListingScreen
                     'State',
                     'Account Status',
                   ],
-                  onDoubleTap: (index) {},
+                  onDoubleTap: (index) async {
+                    await Navigator.pushNamed(
+                        context, AppRoutes.updateEmployeePage,
+                        arguments: {
+                          'user': state.userEntities[index],
+                        });
+                    if (context.mounted) {
+                      context
+                          .read<EmployeeBloc>()
+                          .add(const GetAllEmployeeEvent());
+                    }
+                  },
                   data: [
                     ...state.userEntities.map((e) => [
                           e.employeeCode.toString(),
@@ -156,106 +165,131 @@ class EmployeeListingScreen
                   expandedWidget: (index) {
                     final value = state.userEntities[index];
                     final width = MediaQuery.of(context).size.width / 5;
-                    return Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                    return Column(
                       children: [
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Name',
-                          value: value.name,
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Name',
+                              value: value.name,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Mobile No',
+                              value: (value.mobile.firstOrNull),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'User Status',
+                              value: (value.status).toString(),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Address',
+                              value: (value.address ?? ''),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'State',
+                              value: (value.state ?? ''),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'City',
+                              value: (value.city ?? ''),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Pincode',
+                              value: (value.pincode ?? '').toString(),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Blood Group',
+                              value: (value.bloodGroup ?? ''),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'DOB',
+                              value: value.dob == null
+                                  ? ''
+                                  : DateFormat('dd/MM/yyyy')
+                                      .format(value.dob ?? DateTime.now()),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Email',
+                              value: (value.email ?? ''),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Emergency Contact',
+                              value: (value.emergencyContact),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ViewFilledDataTextField(
+                              width: width,
+                              labelText: 'Role',
+                              value: (value.role.toString()),
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          width: 10,
+                          height: 10,
                         ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Mobile No',
-                          value: (value.mobile.firstOrNull).toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'User Status',
-                          value: (value.status).toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Address',
-                          value: (value.address ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'State',
-                          value: (value.state ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'City',
-                          value: (value.city ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Pincode',
-                          value: (value.pincode ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Blood Group',
-                          value: (value.bloodGroup ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'DOB',
-                          value: value.dob == null
-                              ? ''
-                              : DateFormat('dd/MM/yyyy')
-                                  .format(value.dob ?? DateTime.now()),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Email',
-                          value: (value.email ?? '').toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Emergency Contact',
-                          value: (value.emergencyContact).toString(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ViewFilledDataTextField(
-                          width: width,
-                          labelText: 'Role',
-                          value: (value.role).toString(),
-                        ),
+                        SizedBox(
+                          height: 50,
+                          child: ElevatedButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStateProperty.all(Colors.red.shade50),
+                              foregroundColor:
+                                  WidgetStateProperty.all(Colors.red),
+                            ),
+                            onPressed: () {
+                              context
+                                  .read<EmployeeBloc>()
+                                  .add(DeleteEmployeeEvent(value.id));
+                            },
+                            icon: const Icon(Icons.delete),
+                            label: const Text('Delete Record'),
+                          ),
+                        )
                       ],
                     );
                   },
@@ -277,17 +311,17 @@ class ViewFilledDataTextField extends StatelessWidget {
     required this.width,
   });
   final String labelText;
-  final String value;
+  final String? value;
   final double width;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: AppFormTextField(
+      child: AppTextField(
         labelText: labelText,
         readOnly: true,
-        name: 'some',
+        controller: TextEditingController(text: value),
       ),
     );
   }

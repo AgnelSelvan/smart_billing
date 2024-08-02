@@ -15,8 +15,21 @@ class AddEmployeeEvent extends EmployeeEvent {
   });
 }
 
+class UpdateEmployeeEvent extends EmployeeEvent {
+  final AddUserParams addUserParams;
+
+  const UpdateEmployeeEvent({
+    required this.addUserParams,
+  });
+}
+
 class GetAllEmployeeEvent extends EmployeeEvent {
   const GetAllEmployeeEvent();
+}
+
+class DeleteEmployeeEvent extends EmployeeEvent {
+  final String userId;
+  const DeleteEmployeeEvent(this.userId);
 }
 
 class UpdateEmployeeListingBasedOnSearchAndSortEvent extends EmployeeEvent {

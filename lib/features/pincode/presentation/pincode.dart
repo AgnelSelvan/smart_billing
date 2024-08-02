@@ -9,13 +9,16 @@ import 'package:smart_billing/features/pincode/presentation/provider/pincode.dar
 class StateCityPincode extends StatelessWidget {
   const StateCityPincode({
     super.key,
+    this.initialValue,
   });
+  final Map<String, dynamic>? initialValue;
   @override
   Widget build(BuildContext context) {
     return Consumer<PincodeProvider>(
       builder: (_, provider, __) {
         return FormBuilder(
           key: provider.formKey,
+          initialValue: initialValue ?? {},
           child: Column(
             children: [
               Row(

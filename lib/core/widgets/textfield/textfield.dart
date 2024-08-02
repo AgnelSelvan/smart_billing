@@ -12,11 +12,14 @@ class AppFormTextField extends StatefulWidget {
   final bool readOnly;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
+  final String? initialValue;
   final String name;
+  final TextEditingController? controller;
   final GlobalKey<FormBuilderState>? formKey;
   const AppFormTextField({
     super.key,
     this.labelText,
+    this.initialValue,
     this.hintText,
     this.obsecureText = false,
     this.onEditingComplete,
@@ -28,6 +31,7 @@ class AppFormTextField extends StatefulWidget {
     this.suffixIcon,
     required this.name,
     this.formKey,
+    this.controller,
   });
 
   @override
@@ -46,6 +50,7 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: FormBuilderTextField(
+        controller: widget.controller,
         key: widget.formKey,
         focusNode: focusNode,
         obscureText: widget.obsecureText,
@@ -87,6 +92,97 @@ class _AppFormTextFieldState extends State<AppFormTextField> {
           ),
         ),
         name: widget.name,
+      ),
+    );
+  }
+}
+
+class AppTextField extends StatefulWidget {
+  final String? labelText;
+  final String? hintText;
+  final bool obsecureText;
+  final Function(String)? onEditingComplete;
+  final FocusNode? focusNode;
+  final int maxLines;
+  final bool enabled;
+  final bool readOnly;
+  final String? Function(String?)? validator;
+  final Widget? suffixIcon;
+  final String? initialValue;
+  final TextEditingController? controller;
+  final GlobalKey<FormBuilderState>? formKey;
+  const AppTextField({
+    super.key,
+    this.labelText,
+    this.initialValue,
+    this.hintText,
+    this.obsecureText = false,
+    this.onEditingComplete,
+    this.focusNode,
+    this.maxLines = 1,
+    this.enabled = true,
+    this.readOnly = false,
+    this.validator,
+    this.suffixIcon,
+    this.formKey,
+    this.controller,
+  });
+
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  late FocusNode focusNode;
+  @override
+  void initState() {
+    focusNode = widget.focusNode ?? FocusNode();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: TextField(
+        controller: widget.controller,
+        key: widget.formKey,
+        focusNode: focusNode,
+        obscureText: widget.obsecureText,
+        obscuringCharacter: '*',
+        enabled: widget.enabled,
+        maxLines: widget.maxLines,
+        readOnly: widget.readOnly,
+        decoration: InputDecoration(
+          suffixIcon: widget.suffixIcon,
+          alignLabelWithHint: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+            ),
+          ),
+          fillColor: widget.enabled ? null : Colors.grey[200],
+          filled: !widget.enabled,
+          labelText: widget.labelText,
+          labelStyle: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(color: Colors.grey[600]),
+          hintText: widget.hintText,
+          hintStyle: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(color: Colors.grey[400]),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+            ),
+          ),
+        ),
       ),
     );
   }

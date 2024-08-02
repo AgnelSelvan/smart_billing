@@ -1,13 +1,27 @@
-import 'package:crypt/crypt.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_billing/core/utils/environments/environments.dart';
 
 @injectable
 class EncryptDecryptManager {
-  static String encrypt(String password) {
-    return Crypt.sha256(password).toString();
+  final AppEnvironments appEnvironments;
+
+  EncryptDecryptManager({required this.appEnvironments});
+
+  String encrypt(String password) {
+    final e = Encrypter(AES(appEnvironments.encryptKey, mode: AESMode.cbc));
+    final encryptedData = e.encrypt(password, iv: appEnvironments.encryptIV);
+    return encryptedData.base64;
   }
 
-  static bool decrypt(String hash, String password) {
-    return Crypt(hash).match(password);
+  String decrypt(String password) {
+    final e = Encrypter(AES(appEnvironments.encryptKey, mode: AESMode.cbc));
+    final decryptedData = e.decrypt(Encrypted.fromBase64(password),
+        iv: appEnvironments.encryptIV);
+    return decryptedData;
+  }
+
+  bool hasMatch(String hash, String password) {
+    return decrypt(hash) == password;
   }
 }

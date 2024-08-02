@@ -21,5 +21,6 @@ class UserEntity with _$UserEntity {
     required DateTime? dob,
     required String? emergencyContact,
     required String? employeeCode,
+    required DateTime? createdAt,
   }) = _UserEntity;
 }

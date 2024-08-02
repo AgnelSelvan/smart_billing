@@ -70,10 +70,29 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> updateUser(UserModel userParams) async {
+  Future<Either<Failure, UserEntity>> updateUser(
+      AddUserParams userParams) async {
     try {
       return Right(
-        await localDataSource.updateUser(userParams),
+        await localDataSource.updateUser(UserModel(
+          id: userParams.id,
+          name: userParams.name,
+          password: userParams.password,
+          mobile: userParams.mobile,
+          createdAt: userParams.createdAt,
+          updatedAt: DateTime.now(),
+          role: userParams.role,
+          status: userParams.status,
+          email: userParams.email,
+          address: userParams.address,
+          city: userParams.city,
+          state: userParams.state,
+          pincode: userParams.pincode,
+          employeeCode: userParams.employeeCode,
+          bloodGroup: userParams.bloodGroup,
+          emergencyMobileNo: userParams.emergencyMobileNo,
+          dob: userParams.dob,
+        )),
       );
     } on Exception catch (e) {
       return Left(Failure(message: e.toString()));

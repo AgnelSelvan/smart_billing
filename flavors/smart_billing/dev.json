@@ -1,5 +1,7 @@
 {
     "appName": "Smart Billing Dev",
     "flavor": "smart_billing",
-    "debug": true
+    "debug": true,
+    "encryptKey32Char": "Tc+bXJB6lAvXSP90QBE+P9DwPi4Y+/Ocug/YAccYI2s=",
+    "encryptIV16Char": "MRRhq1Y6W3Bq1d9Sg76pFw=="
 }

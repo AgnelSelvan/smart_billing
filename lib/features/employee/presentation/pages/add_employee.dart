@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:smart_billing/core/di/di.dart';
 import 'package:smart_billing/core/extension/context.dart';
 import 'package:smart_billing/core/utils/app/app_bloc_stateless.dart';
+import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
 import 'package:smart_billing/core/utils/toast/toast.dart';
 import 'package:smart_billing/core/validator/validator.dart';
 import 'package:smart_billing/core/widgets/app_date_time.dart';
@@ -14,6 +16,7 @@ import 'package:smart_billing/features/employee/presentation/manager/employee_bl
 import 'package:smart_billing/features/pincode/presentation/pincode.dart';
 import 'package:smart_billing/features/pincode/presentation/provider/pincode.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
+import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 import 'package:smart_billing/features/user/domain/usecase/add_user_usecase.dart';
 
 enum Crud {
@@ -27,12 +30,13 @@ class AddEmployeePage
   const AddEmployeePage({
     super.key,
     required this.crud,
+    this.userEntity,
   });
   final Crud crud;
+  final UserEntity? userEntity;
 
   @override
   void listener(BuildContext context, EmployeeBloc bloc, EmployeeState state) {
-    print('state: ${state.runtimeType}');
     if (state is EmployeeErrorState) {
       AppToastMessenger.showErrorMessage(
         context,
@@ -57,6 +61,10 @@ class AddEmployeePage
   @override
   Widget buildView(
       BuildContext context, EmployeeBloc bloc, EmployeeState state) {
+    if (userEntity != null) {
+      bloc.formKey.currentState
+          ?.patchValue({'employeeCode': userEntity?.employeeCode ?? ''});
+    }
     return Scaffold(
       appBar: SmartBillingAppBar(
         subTitle: crud == Crud.add ? 'Add New Employee' : 'Update Employee',
@@ -64,6 +72,25 @@ class AddEmployeePage
       ),
       body: FormBuilder(
         key: bloc.formKey,
+        initialValue: crud == Crud.update
+            ? {
+                'name': userEntity?.name,
+                'mobileNo': userEntity?.mobile.firstOrNull,
+                'email': userEntity?.email,
+                'address': userEntity?.address,
+                'city': userEntity?.city,
+                'state': userEntity?.state,
+                'pincode': userEntity?.pincode,
+                'role': userEntity?.role,
+                'userStatus': userEntity?.status,
+                'bloodGroup': userEntity?.bloodGroup,
+                'emergencyContactNo': userEntity?.emergencyContact,
+                'dob': userEntity?.dob,
+                'employeeCode': userEntity?.employeeCode,
+                'password': getIt<EncryptDecryptManager>()
+                    .decrypt(userEntity?.password ?? ''),
+              }
+            : {},
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -128,28 +155,32 @@ class AddEmployeePage
                   ),
                   // TODO: 3 Bordered Box
                   // Address, pincode, city, state
-                  const BorderedCollection(
+                  BorderedCollection(
                     title: 'Residential Details',
                     child: Column(
                       children: [
-                        AppFormTextField(
+                        const AppFormTextField(
                           labelText: 'Residential Address',
                           maxLines: 3,
                           validator: AppValidators.addressValidate,
                           name: 'address',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        StateCityPincode(),
+                        StateCityPincode(
+                          initialValue: {
+                            'city': userEntity?.city,
+                            'state': userEntity?.state,
+                            'pincode': userEntity?.pincode.toString(),
+                          },
+                        ),
                       ],
                     ),
                   )
                 ],
               ),
             ),
-            // TODO: 2 Bordered Box
-            // Role, EmployeeCode, emergency contact, Blood group, DOB
             Expanded(
               child: Column(
                 children: [
@@ -254,29 +285,56 @@ class AddEmployeePage
                                 json: bloc.formKey.currentState?.instantValue,
                                 pincode: pincode,
                               );
-                              bloc.add(
-                                AddEmployeeEvent(
-                                  addUserParams: AddUserParams(
-                                    id: employee.id,
-                                    name: employee.name,
-                                    email: employee.email,
-                                    password: employee.password,
-                                    mobile: employee.mobile,
-                                    address: employee.address,
-                                    city: employee.city,
-                                    state: employee.state,
-                                    pincode: employee.pincode,
-                                    createdAt: employee.createdAt,
-                                    role: employee.role,
-                                    status: employee.status,
-                                    bloodGroup: employee.bloodGroup,
-                                    emergencyMobileNo:
-                                        employee.emergencyMobileNo,
-                                    dob: employee.dob,
-                                    employeeCode: employee.employeeCode,
+                              if (crud == Crud.update) {
+                                bloc.add(
+                                  UpdateEmployeeEvent(
+                                    addUserParams: AddUserParams(
+                                      id: userEntity?.id ?? employee.id,
+                                      name: employee.name,
+                                      email: employee.email,
+                                      password: employee.password,
+                                      mobile: employee.mobile,
+                                      address: employee.address,
+                                      city: employee.city,
+                                      state: employee.state,
+                                      pincode: employee.pincode,
+                                      createdAt: userEntity?.createdAt ??
+                                          employee.createdAt,
+                                      role: employee.role,
+                                      status: employee.status,
+                                      bloodGroup: employee.bloodGroup,
+                                      emergencyMobileNo:
+                                          employee.emergencyMobileNo,
+                                      dob: employee.dob,
+                                      employeeCode: employee.employeeCode,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                bloc.add(
+                                  AddEmployeeEvent(
+                                    addUserParams: AddUserParams(
+                                      id: employee.id,
+                                      name: employee.name,
+                                      email: employee.email,
+                                      password: employee.password,
+                                      mobile: employee.mobile,
+                                      address: employee.address,
+                                      city: employee.city,
+                                      state: employee.state,
+                                      pincode: employee.pincode,
+                                      createdAt: employee.createdAt,
+                                      role: employee.role,
+                                      status: employee.status,
+                                      bloodGroup: employee.bloodGroup,
+                                      emergencyMobileNo:
+                                          employee.emergencyMobileNo,
+                                      dob: employee.dob,
+                                      employeeCode: employee.employeeCode,
+                                    ),
+                                  ),
+                                );
+                              }
                             }
                           },
                           child: const Text('Save'),

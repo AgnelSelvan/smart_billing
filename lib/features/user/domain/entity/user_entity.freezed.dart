@@ -31,6 +31,7 @@ mixin _$UserEntity {
   DateTime? get dob => throw _privateConstructorUsedError;
   String? get emergencyContact => throw _privateConstructorUsedError;
   String? get employeeCode => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserEntityCopyWith<UserEntity> get copyWith =>
@@ -58,7 +59,8 @@ abstract class $UserEntityCopyWith<$Res> {
       String? bloodGroup,
       DateTime? dob,
       String? emergencyContact,
-      String? employeeCode});
+      String? employeeCode,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -89,6 +91,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? dob = freezed,
     Object? emergencyContact = freezed,
     Object? employeeCode = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -151,6 +154,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
           ? _value.employeeCode
           : employeeCode // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -178,7 +185,8 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       String? bloodGroup,
       DateTime? dob,
       String? emergencyContact,
-      String? employeeCode});
+      String? employeeCode,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -207,6 +215,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? dob = freezed,
     Object? emergencyContact = freezed,
     Object? employeeCode = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$UserEntityImpl(
       id: null == id
@@ -269,6 +278,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
           ? _value.employeeCode
           : employeeCode // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -291,7 +304,8 @@ class _$UserEntityImpl implements _UserEntity {
       required this.bloodGroup,
       required this.dob,
       required this.emergencyContact,
-      required this.employeeCode})
+      required this.employeeCode,
+      required this.createdAt})
       : _mobile = mobile;
 
   @override
@@ -330,10 +344,12 @@ class _$UserEntityImpl implements _UserEntity {
   final String? emergencyContact;
   @override
   final String? employeeCode;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, role: $role, status: $status, bloodGroup: $bloodGroup, dob: $dob, emergencyContact: $emergencyContact, employeeCode: $employeeCode)';
+    return 'UserEntity(id: $id, name: $name, email: $email, password: $password, mobile: $mobile, address: $address, city: $city, state: $state, pincode: $pincode, role: $role, status: $status, bloodGroup: $bloodGroup, dob: $dob, emergencyContact: $emergencyContact, employeeCode: $employeeCode, createdAt: $createdAt)';
   }
 
   @override
@@ -359,7 +375,9 @@ class _$UserEntityImpl implements _UserEntity {
             (identical(other.emergencyContact, emergencyContact) ||
                 other.emergencyContact == emergencyContact) &&
             (identical(other.employeeCode, employeeCode) ||
-                other.employeeCode == employeeCode));
+                other.employeeCode == employeeCode) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
@@ -379,7 +397,8 @@ class _$UserEntityImpl implements _UserEntity {
       bloodGroup,
       dob,
       emergencyContact,
-      employeeCode);
+      employeeCode,
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -404,7 +423,8 @@ abstract class _UserEntity implements UserEntity {
       required final String? bloodGroup,
       required final DateTime? dob,
       required final String? emergencyContact,
-      required final String? employeeCode}) = _$UserEntityImpl;
+      required final String? employeeCode,
+      required final DateTime? createdAt}) = _$UserEntityImpl;
 
   @override
   String get id;
@@ -436,6 +456,8 @@ abstract class _UserEntity implements UserEntity {
   String? get emergencyContact;
   @override
   String? get employeeCode;
+  @override
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$UserEntityImplCopyWith<_$UserEntityImpl> get copyWith =>

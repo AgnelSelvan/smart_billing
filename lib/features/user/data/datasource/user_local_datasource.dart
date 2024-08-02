@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:smart_billing/core/enum/search.dart';
 import 'package:smart_billing/core/enum/sort.dart';
 import 'package:smart_billing/core/utils/encrypt/encrypt_decrypt.dart';
+import 'package:smart_billing/features/employee/presentation/pages/add_employee.dart';
 import 'package:smart_billing/features/user/data/models/user_model.dart';
 import 'package:smart_billing/features/user/domain/entity/user_entity.dart';
 
@@ -24,10 +25,12 @@ abstract class UserLocalDataSource {
 @LazySingleton(as: UserLocalDataSource)
 class UserLocalDataSourceImpl extends UserLocalDataSource {
   final Box<UserModel> userBox;
+  final EncryptDecryptManager encryptDecryptManager;
 
-  UserLocalDataSourceImpl({required this.userBox});
+  UserLocalDataSourceImpl(
+      {required this.userBox, required this.encryptDecryptManager});
 
-  Future<bool> _validate(UserModel userModel) async {
+  Future<bool> _validate(UserModel userModel, Crud crud) async {
     if (userModel.email == null || userModel.email!.isEmpty) {
       throw Exception('Email is required');
     }
@@ -37,19 +40,21 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
     if (userModel.password.isEmpty) {
       throw Exception('Password is required');
     }
-    final users = await getAllUsers();
-    final sameUser = users
-        .where((e) => e.mobile.contains(userModel.mobile.firstOrNull))
-        .firstOrNull;
-    if (sameUser != null) {
-      throw Exception('User already exists with this mobile number');
+    if (crud == Crud.add) {
+      final users = await getAllUsers();
+      final sameUser = users
+          .where((e) => e.mobile.contains(userModel.mobile.firstOrNull))
+          .firstOrNull;
+      if (sameUser != null) {
+        throw Exception('User already exists with this mobile number');
+      }
     }
     return true;
   }
 
   @override
   Future<UserEntity> addUser(UserModel userModel) async {
-    final isValid = await _validate(userModel);
+    final isValid = await _validate(userModel, Crud.add);
     if (isValid) {
       await userBox.add(userModel);
       return userModel.toEntity();
@@ -76,9 +81,14 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
 
   @override
   Future<UserEntity> updateUser(UserModel userModel) async {
-    final isValid = await _validate(userModel);
+    final isValid = await _validate(userModel, Crud.update);
     if (isValid) {
-      await userBox.put(userModel.key, userModel);
+      final index =
+          userBox.values.toList().indexWhere((e) => e.id == userModel.id);
+      if (index == -1) {
+        throw 'User not exists';
+      }
+      await userBox.putAt(index, userModel);
       return userModel.toEntity();
     }
     throw Exception('User not updated');
@@ -104,7 +114,7 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
     if (userEntity == null) {
       throw Exception('User not found');
     }
-    if (EncryptDecryptManager.decrypt(userEntity.password, password)) {
+    if (encryptDecryptManager.hasMatch(userEntity.password, password)) {
       return userEntity;
     } else {
       throw Exception('Invalid password');
@@ -114,8 +124,6 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
   @override
   List<UserEntity> getAllUsersBySearch(
       String search, EmployeeSearchCategory category, EmployeeSortBy sortBy) {
-    print('DS search: $search category: $category sortBy: $sortBy');
-
     List<UserModel> users = userBox.values.toList();
     if (search.isNotEmpty) {
       if (category == EmployeeSearchCategory.email) {

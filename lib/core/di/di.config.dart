@@ -110,7 +110,6 @@ Future<_i174.GetIt> init(
   );
   final hiveBoxModule = _$HiveBoxModule();
   gh.factory<_i11.AppEnvironments>(() => _i11.AppEnvironments());
-  gh.factory<_i988.EncryptDecryptManager>(() => _i988.EncryptDecryptManager());
   gh.factory<_i672.APIHandler>(() => _i672.APIHandler());
   gh.factory<_i736.HomeBloc>(() => _i736.HomeBloc());
   await gh.lazySingletonAsync<_i744.Box<_i353.CompanyModel>>(
@@ -129,6 +128,8 @@ Future<_i174.GetIt> init(
       () => _i445.CompanyRemoteDataSourceImpl());
   gh.lazySingleton<_i957.PincodeRDS>(
       () => _i957.PincodeRDSImpl(gh<_i672.APIHandler>()));
+  gh.factory<_i988.EncryptDecryptManager>(() =>
+      _i988.EncryptDecryptManager(appEnvironments: gh<_i11.AppEnvironments>()));
   gh.lazySingleton<_i861.PincodeRepository>(
       () => _i188.PincodeRepositoryImpl(gh<_i957.PincodeRDS>()));
   gh.lazySingleton<_i977.TranslationLocalDataSource>(() =>
@@ -143,13 +144,16 @@ Future<_i174.GetIt> init(
         localDataSource: gh<_i578.CompanyLocalDataSource>(),
         remoteDataSource: gh<_i445.CompanyRemoteDataSource>(),
       ));
-  gh.lazySingleton<_i286.UserLocalDataSource>(() =>
-      _i286.UserLocalDataSourceImpl(userBox: gh<_i986.Box<_i557.UserModel>>()));
   gh.factory<_i817.AppFlavor>(() => _i817.AppFlavor(
         appName: gh<String>(),
         isDebug: gh<bool>(),
         flavor: gh<String>(),
       ));
+  gh.lazySingleton<_i286.UserLocalDataSource>(
+      () => _i286.UserLocalDataSourceImpl(
+            userBox: gh<_i986.Box<_i557.UserModel>>(),
+            encryptDecryptManager: gh<_i988.EncryptDecryptManager>(),
+          ));
   gh.lazySingleton<_i431.UserRepository>(() => _i677.UserRepositoryImpl(
       localDataSource: gh<_i286.UserLocalDataSource>()));
   gh.lazySingleton<_i171.AddCompanyUseCase>(
@@ -175,22 +179,24 @@ Future<_i174.GetIt> init(
       () => _i449.AddUserUseCase(repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i280.UpdateUserUseCase>(
       () => _i280.UpdateUserUseCase(repository: gh<_i431.UserRepository>()));
+  gh.lazySingleton<_i454.UserLoginUseCase>(
+      () => _i454.UserLoginUseCase(repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i826.GetUserByEmailOrMobileUseCase>(() =>
       _i826.GetUserByEmailOrMobileUseCase(
           repository: gh<_i431.UserRepository>()));
-  gh.lazySingleton<_i454.UserLoginUseCase>(
-      () => _i454.UserLoginUseCase(repository: gh<_i431.UserRepository>()));
   gh.lazySingleton<_i387.GetAllUserBySearchUseCase>(() =>
       _i387.GetAllUserBySearchUseCase(repository: gh<_i431.UserRepository>()));
   gh.factory<_i765.SplashBloc>(
       () => _i765.SplashBloc(gh<_i167.GetMyOwnCompanyUsecase>()));
-  gh.factory<_i804.LoginBloc>(
-      () => _i804.LoginBloc(gh<_i454.UserLoginUseCase>()));
   gh.factory<_i783.EmployeeBloc>(() => _i783.EmployeeBloc(
         gh<_i449.AddUserUseCase>(),
         gh<_i20.GetAllUserUseCase>(),
         gh<_i387.GetAllUserBySearchUseCase>(),
+        gh<_i53.DeleteUserUseCase>(),
+        gh<_i280.UpdateUserUseCase>(),
       ));
+  gh.factory<_i804.LoginBloc>(
+      () => _i804.LoginBloc(gh<_i454.UserLoginUseCase>()));
   gh.lazySingleton<_i212.GetCurrentTranslationUseCase>(() =>
       _i212.GetCurrentTranslationUseCase(
           repository: gh<_i387.TranslationRepository>()));
